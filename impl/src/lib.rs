@@ -1,5 +1,6 @@
 #![allow(
     clippy::cast_lossless,
+    clippy::manual_range_contains,
     clippy::needless_pass_by_value,
     clippy::unnecessary_wraps
 )]
@@ -77,7 +78,9 @@ impl ToTokens for StrNode {
                 }
             }
             StrNode::Tuple(vec) => {
-                quote!((#(#vec,)*))
+                let len = vec.len();
+                assert!(len >= 2 && len <= K, "len={}", len);
+                quote!((#(#vec),*))
             }
         });
     }
