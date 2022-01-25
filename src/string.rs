@@ -5,9 +5,10 @@ const TAG_TWO_B: u8 = 0b1100_0000;
 const TAG_THREE_B: u8 = 0b1110_0000;
 const TAG_FOUR_B: u8 = 0b1111_0000;
 
-unsafe trait RetrieveString {
+pub(crate) unsafe trait RetrieveString {
     // SAFETY: Must contain no padding bytes. Must have alignment of 1.
     type Type;
+    // SAFETY: Contents viewed as bytes must be a valid UTF-8 encoding.
     const BYTES: Self::Type;
 }
 
@@ -49,7 +50,7 @@ unsafe impl RetrieveString for () {
 }
 
 #[repr(C)]
-struct Concat2<A, B>(A, B);
+pub(crate) struct Concat2<A, B>(A, B);
 
 unsafe impl<A, B> RetrieveString for (A, B)
 where
@@ -61,7 +62,7 @@ where
 }
 
 #[repr(C)]
-struct Concat3<A, B, C>(A, B, C);
+pub(crate) struct Concat3<A, B, C>(A, B, C);
 
 unsafe impl<A, B, C> RetrieveString for (A, B, C)
 where
@@ -74,7 +75,7 @@ where
 }
 
 #[repr(C)]
-struct Concat4<A, B, C, D>(A, B, C, D);
+pub(crate) struct Concat4<A, B, C, D>(A, B, C, D);
 
 unsafe impl<A, B, C, D> RetrieveString for (A, B, C, D)
 where
@@ -88,7 +89,7 @@ where
 }
 
 #[repr(C)]
-struct Concat5<A, B, C, D, E>(A, B, C, D, E);
+pub(crate) struct Concat5<A, B, C, D, E>(A, B, C, D, E);
 
 unsafe impl<A, B, C, D, E> RetrieveString for (A, B, C, D, E)
 where
@@ -103,7 +104,7 @@ where
 }
 
 #[repr(C)]
-struct Concat6<A, B, C, D, E, F>(A, B, C, D, E, F);
+pub(crate) struct Concat6<A, B, C, D, E, F>(A, B, C, D, E, F);
 
 unsafe impl<A, B, C, D, E, F> RetrieveString for (A, B, C, D, E, F)
 where
