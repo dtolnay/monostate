@@ -28,6 +28,40 @@ fn test_serialize_deserialize() {
 }
 
 #[test]
+fn test_untagged_enum() {
+    #[derive(Serialize, Deserialize)]
+    #[serde(untagged)]
+    enum ApiResponse {
+        Success {
+            success: MustBe!(true),
+        },
+        Error {
+            success: MustBe!(false),
+            message: String,
+        },
+    }
+
+    let success = "{\"success\":true}";
+    let response: ApiResponse = serde_json::from_str(success).unwrap();
+    match response {
+        ApiResponse::Success {
+            success: MustBe!(true),
+        } => {}
+        ApiResponse::Error { .. } => panic!(),
+    }
+
+    let error = "{\"success\":false,\"message\":\"...\"}";
+    let response: ApiResponse = serde_json::from_str(error).unwrap();
+    match response {
+        ApiResponse::Error {
+            success: MustBe!(false),
+            ..
+        } => {}
+        ApiResponse::Success { .. } => panic!(),
+    }
+}
+
+#[test]
 fn test_debug() {
     #[track_caller]
     fn assert_debug(must_be: impl Debug, expected: &str) {
