@@ -3,6 +3,8 @@
 #![allow(
     clippy::borrow_as_ptr,
     clippy::builtin_type_shadow,
+    clippy::cast_lossless,
+    clippy::cast_sign_loss,
     clippy::expl_impl_clone_on_copy,
     clippy::missing_safety_doc,
     clippy::ptr_as_ptr
@@ -12,6 +14,7 @@
 pub mod alphabet;
 mod debug;
 mod default;
+mod deserialize;
 mod eq;
 mod hash;
 mod ord;
