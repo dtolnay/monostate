@@ -1,3 +1,45 @@
+//! This library implements a type macro for a zero-sized type that is Serde
+//! deserializable only from one specific value.
+//!
+//! # Examples
+//!
+//! ```
+//! use monostate::MustBe;
+//! use serde::Deserialize;
+//!
+//! #[derive(Deserialize)]
+//! struct Example {
+//!     kind: MustBe!("success"),
+//!     code: MustBe!(200),
+//! }
+//! ```
+//!
+//! The above struct would deserialize from `{"kind":"success", "code":200}` in
+//! JSON, but would fail the deserialization if "kind" or "code" were any other
+//! value.
+//!
+//! This can sometimes be helpful in processing untagged enums in which the
+//! variant indentification is more convoluted than what is handled by Serde's
+//! externally tagged and internally tagged representations, for example because
+//! the variant tag has an inconsistent type or key.
+//!
+//! ```
+//! use monostate::MustBe;
+//! use serde::Deserialize;
+//!
+//! #[derive(Deserialize)]
+//! #[serde(untagged)]
+//! pub enum ApiResponse {
+//!     Success {
+//!         success: MustBe!(true),
+//!     },
+//!     Error {
+//!         kind: MustBe!("error"),
+//!         message: String,
+//!     },
+//! }
+//! ```
+
 #![no_std]
 #![allow(non_camel_case_types, non_upper_case_globals)]
 #![allow(
