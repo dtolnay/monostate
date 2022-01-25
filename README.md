@@ -11,7 +11,7 @@ deserializable only from one specific value.
 
 ```toml
 [dependencies]
-monostate = "0.0"
+monostate = "0.1"
 ```
 
 <br>
