@@ -1,7 +1,12 @@
 [package]
 name = "monostate-impl"
 version = "0.0.0"
+authors = ["David Tolnay <dtolnay@gmail.com>"]
 edition = "2021"
+rust-version = "1.56"
+license = "MIT OR Apache-2.0"
+description = "Implementation detail of the monostate crate"
+repository = "https://github.com/dtolnay/monostate"
 
 [lib]
 proc-macro = true
