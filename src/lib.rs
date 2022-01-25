@@ -6,6 +6,7 @@ pub mod alphabet;
 mod debug;
 mod eq;
 mod partial_eq;
+mod partial_ord;
 mod serialize;
 mod string;
 
