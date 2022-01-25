@@ -8,45 +8,59 @@ mod string;
 
 pub use monostate_impl::MustBe;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeChar<const char: char>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBePosInt<const u128: u128>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeNegInt<const i128: i128>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeU8<const u8: u8>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeU16<const u16: u16>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeU32<const u32: u32>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeU64<const u64: u64>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeU128<const u128: u128>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeI8<const i8: i8>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeI16<const i16: i16>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeI32<const i32: i32>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeI64<const i64: i64>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeI128<const i128: i128>;
 
+#[derive(Copy, Clone)]
 #[doc(hidden)]
 pub struct MustBeBool<const bool: bool>;
 
@@ -82,6 +96,14 @@ mod value {
 pub enum MustBeStr<str> {
     __Phantom(void::MustBeStr<str>),
     MustBeStr,
+}
+
+impl<str> Copy for MustBeStr<str> {}
+
+impl<str> Clone for MustBeStr<str> {
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 
 #[doc(hidden)]
