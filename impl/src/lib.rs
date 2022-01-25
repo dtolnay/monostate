@@ -1,5 +1,6 @@
 use proc_macro::TokenStream;
 use proc_macro2::TokenStream as TokenStream2;
+use quote::quote;
 use syn::{parse_macro_input, Error, Lit, LitInt, Result};
 
 #[allow(non_snake_case)]
@@ -22,19 +23,42 @@ fn must_be_str(value: String) -> Result<TokenStream2> {
 }
 
 fn must_be_byte(value: u8) -> Result<TokenStream2> {
-    unimplemented!()
+    Ok(quote!(::monostate::MustBeU8::<#value>))
 }
 
 fn must_be_char(value: char) -> Result<TokenStream2> {
-    unimplemented!()
+    Ok(quote!(::monostate::MustBeChar::<#value>))
 }
 
 fn must_be_int(lit: LitInt) -> Result<TokenStream2> {
-    unimplemented!()
+    let token = lit.token();
+    match lit.suffix() {
+        "u8" => Ok(quote!(::monostate::MustBeU8::<#token>)),
+        "u16" => Ok(quote!(::monostate::MustBeU16::<#token>)),
+        "u32" => Ok(quote!(::monostate::MustBeU32::<#token>)),
+        "u64" => Ok(quote!(::monostate::MustBeU64::<#token>)),
+        "u128" => Ok(quote!(::monostate::MustBeU128::<#token>)),
+        "i8" => Ok(quote!(::monostate::MustBeI8::<#token>)),
+        "i16" => Ok(quote!(::monostate::MustBeI16::<#token>)),
+        "i32" => Ok(quote!(::monostate::MustBeI32::<#token>)),
+        "i64" => Ok(quote!(::monostate::MustBeI64::<#token>)),
+        "i128" => Ok(quote!(::monostate::MustBeI128::<#token>)),
+        "" => {
+            if lit.base10_digits().starts_with('-') {
+                Ok(quote!(::monostate::MustBeNegInt::<#token>))
+            } else {
+                Ok(quote!(::monostate::MustBePosInt::<#token>))
+            }
+        }
+        suffix => {
+            let msg = format!("unsupported integers suffix `{}`", suffix);
+            Err(Error::new(lit.span(), msg))
+        }
+    }
 }
 
 fn must_be_bool(value: bool) -> Result<TokenStream2> {
-    unimplemented!()
+    Ok(quote!(::monostate::MustBeBool::<#value>))
 }
 
 fn unsupported(lit: Lit) -> Result<TokenStream2> {
