@@ -1,7 +1,11 @@
 use proc_macro::TokenStream;
-use proc_macro2::TokenStream as TokenStream2;
-use quote::quote;
+use proc_macro2::{Ident, Span, TokenStream as TokenStream2};
+use quote::{quote, ToTokens};
+use std::mem;
 use syn::{parse_macro_input, Error, Lit, LitInt, Result};
+
+// Branching factor of the MustBeStr tuple type parameter.
+const K: usize = 6;
 
 #[allow(non_snake_case)]
 #[proc_macro]
@@ -18,8 +22,110 @@ pub fn MustBe(input: TokenStream) -> TokenStream {
     expanded.unwrap_or_else(Error::into_compile_error).into()
 }
 
+// We encode the chars at two consecutive levels of a K-ary tree.
+//
+// Suppose K=3, then strings "", "a", "ab", "abc", … would be encoded to:
+//     ()
+//     (a)
+//     (a, b)
+//     (a, b, c)
+//     (a, b, (c, d))
+//     (a, b, (c, d, e))
+//     (a, (b, c), (d, e, f))
+//     (a, (b, c, d), (e, f, g))
+//     ((a, b), (c, d, e), (f, g, h))
+//     ((a, b, c), (d, e, f), (g, h, i))
+//     ((a, b, c), (d, e, f), (g, h, (i, j)))
+//     ((a, b, c), (d, e, f), (g, h, (i, j, k)))
+//     ((a, b, c), (d, e, f), (g, (h, i), (j, k l)))
+//
+// That last one in tree form is:
+//           ╷
+//      ┌────┴┬──────┐
+//     ┌┴┬─┐ ┌┴┬─┐ ┌─┴┬───┐
+//     a b c d e f g ┌┴┐ ┌┴┬─┐
+//                   h i j k l
+
+enum StrNode {
+    Char(char),
+    Tuple(Vec<StrNode>),
+}
+
+impl ToTokens for StrNode {
+    fn to_tokens(&self, tokens: &mut TokenStream2) {
+        tokens.extend(match self {
+            StrNode::Char(ch) => {
+                if let 'A'..='Z' | 'a'..='z' = ch {
+                    let mut buf = [0];
+                    let name = ch.encode_utf8(&mut buf);
+                    let ident = Ident::new(name, Span::call_site());
+                    quote!(::monostate::alphabet::#ident)
+                } else {
+                    match ch.len_utf8() {
+                        1 => quote!(::monostate::alphabet::char<#ch>),
+                        2 => quote!(::monostate::alphabet::two::char<#ch>),
+                        3 => quote!(::monostate::alphabet::three::char<#ch>),
+                        4 => quote!(::monostate::alphabet::four::char<#ch>),
+                        _ => unreachable!(),
+                    }
+                }
+            }
+            StrNode::Tuple(vec) => {
+                quote!((#(#vec,)*))
+            }
+        });
+    }
+}
+
 fn must_be_str(value: String) -> Result<TokenStream2> {
-    unimplemented!()
+    if value.is_empty() {
+        return Ok(quote!(::monostate::MustBeStr::<()>));
+    }
+    let mut nodes = Vec::new();
+    for ch in value.chars() {
+        nodes.push(StrNode::Char(ch));
+    }
+    // Find largest power of K smaller than len.
+    let mut pow = 1;
+    while pow * K < nodes.len() {
+        pow *= K;
+    }
+    while nodes.len() > 1 {
+        // Number of nodes in excess of the smaller of the two tree levels.
+        let overage = nodes.len() - pow;
+        // Every group of K-1 nodes which are beyond the smaller tree level can
+        // be combined with 1 node from the smaller tree level to form a
+        // K-tuple node. The number of tuples that need to be formed is
+        // ceil[overage / (K-1)].
+        let num_tuple_nodes = (overage + K - 2) / (K - 1);
+        // Number of nodes left needing to be inserted into a tuple.
+        let mut remainder = num_tuple_nodes + overage;
+        // Index of next node to be inserted into a tuple.
+        let mut read = nodes.len() - remainder;
+        // Index of the tuple currently being inserted into.
+        let mut write = read;
+        // True if we haven't yet made a Vec to hold the current tuple.
+        let mut make_tuple = true;
+        while let Some(node) = nodes.get_mut(read) {
+            let next = mem::replace(node, StrNode::Char('\0'));
+            if make_tuple {
+                nodes[write] = StrNode::Tuple(Vec::with_capacity(K));
+            }
+            if let StrNode::Tuple(vec) = &mut nodes[write] {
+                vec.push(next);
+            } else {
+                unreachable!();
+            }
+            remainder -= 1;
+            make_tuple = remainder % K == 0;
+            write += make_tuple as usize;
+            read += 1;
+        }
+        nodes.truncate(pow);
+        pow /= K;
+    }
+    let encoded = &nodes[0];
+    Ok(quote!(::monostate::MustBeStr::<#encoded>))
 }
 
 fn must_be_byte(value: u8) -> Result<TokenStream2> {
