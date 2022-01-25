@@ -4,6 +4,7 @@
 #[doc(hidden)]
 pub mod alphabet;
 mod debug;
+mod default;
 mod eq;
 mod hash;
 mod ord;
