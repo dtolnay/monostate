@@ -5,6 +5,7 @@
 pub mod alphabet;
 mod debug;
 mod eq;
+mod ord;
 mod partial_eq;
 mod partial_ord;
 mod serialize;
