@@ -3,6 +3,7 @@
 
 #[doc(hidden)]
 pub mod alphabet;
+mod string;
 
 pub use monostate_impl::MustBe;
 
