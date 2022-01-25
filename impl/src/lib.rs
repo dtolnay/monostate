@@ -50,6 +50,13 @@ fn must_be_int(lit: LitInt) -> Result<TokenStream2> {
                 Ok(quote!(::monostate::MustBePosInt::<#token>))
             }
         }
+        suffix @ ("usize" | "isize") => {
+            let msg = format!(
+                "serde data model only uses consistently sized integer types, not {}",
+                suffix,
+            );
+            Err(Error::new(lit.span(), msg))
+        }
         suffix => {
             let msg = format!("unsupported integers suffix `{}`", suffix);
             Err(Error::new(lit.span(), msg))
