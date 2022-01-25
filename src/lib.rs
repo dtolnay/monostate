@@ -3,8 +3,9 @@
 
 #[doc(hidden)]
 pub mod alphabet;
-mod cmp;
 mod debug;
+mod eq;
+mod partial_eq;
 mod serialize;
 mod string;
 
