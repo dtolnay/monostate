@@ -4,6 +4,8 @@
 #[doc(hidden)]
 pub mod alphabet;
 
+pub use monostate_impl::MustBe;
+
 #[doc(hidden)]
 pub struct MustBeChar<const char: char>;
 
