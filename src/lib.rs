@@ -1,6 +1,9 @@
 #![allow(non_camel_case_types, non_upper_case_globals)]
 
 #[doc(hidden)]
+pub mod alphabet;
+
+#[doc(hidden)]
 pub struct MustBeChar<const char: char>;
 
 #[doc(hidden)]
