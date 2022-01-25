@@ -1,3 +1,9 @@
+#![allow(
+    clippy::cast_lossless,
+    clippy::needless_pass_by_value,
+    clippy::unnecessary_wraps
+)]
+
 use proc_macro::TokenStream;
 use proc_macro2::{Ident, Span, TokenStream as TokenStream2};
 use quote::{quote, ToTokens};

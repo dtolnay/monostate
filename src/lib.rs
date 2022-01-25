@@ -1,5 +1,12 @@
 #![no_std]
 #![allow(non_camel_case_types, non_upper_case_globals)]
+#![allow(
+    clippy::borrow_as_ptr,
+    clippy::builtin_type_shadow,
+    clippy::expl_impl_clone_on_copy,
+    clippy::missing_safety_doc,
+    clippy::ptr_as_ptr
+)]
 
 #[doc(hidden)]
 pub mod alphabet;
