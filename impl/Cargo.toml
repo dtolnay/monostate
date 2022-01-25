@@ -5,3 +5,7 @@ edition = "2021"
 
 [lib]
 proc-macro = true
+
+[dependencies]
+syn = { version = "1.0", default-features = false, features = ["proc-macro", "parsing"] }
+proc-macro2 = "1.0"
