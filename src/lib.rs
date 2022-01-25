@@ -1,7 +1,5 @@
 #![allow(non_camel_case_types, non_upper_case_globals)]
 
-use std::marker::PhantomData;
-
 #[doc(hidden)]
 pub struct MustBeChar<const char: char>;
 
@@ -44,5 +42,39 @@ pub struct MustBeI128<const i128: i128>;
 #[doc(hidden)]
 pub struct MustBeBool<const bool: bool>;
 
+mod void {
+    use std::marker::PhantomData;
+
+    enum Void {}
+
+    impl Copy for Void {}
+
+    impl Clone for Void {
+        fn clone(&self) -> Self {
+            match *self {}
+        }
+    }
+
+    pub struct MustBeStr<T>(PhantomData<T>, Void);
+
+    impl<T> Copy for MustBeStr<T> {}
+
+    impl<T> Clone for MustBeStr<T> {
+        fn clone(&self) -> Self {
+            *self
+        }
+    }
+}
+
+mod value {
+    pub use super::MustBeStr::MustBeStr;
+}
+
 #[doc(hidden)]
-pub struct MustBeStr<str>(PhantomData<str>);
+pub enum MustBeStr<str> {
+    __Phantom(void::MustBeStr<str>),
+    MustBeStr,
+}
+
+#[doc(hidden)]
+pub use self::value::*;
