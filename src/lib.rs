@@ -3,6 +3,7 @@
 
 #[doc(hidden)]
 pub mod alphabet;
+mod cmp;
 mod debug;
 mod serialize;
 mod string;

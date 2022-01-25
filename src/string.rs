@@ -7,7 +7,7 @@ const TAG_FOUR_B: u8 = 0b1111_0000;
 
 pub(crate) unsafe trait RetrieveString {
     // SAFETY: Must contain no padding bytes. Must have alignment of 1.
-    type Type;
+    type Type: 'static;
     // SAFETY: Contents viewed as bytes must be a valid UTF-8 encoding.
     const BYTES: Self::Type;
 }
