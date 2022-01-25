@@ -1,12 +1,12 @@
 #[doc(hidden)]
-pub struct char<const char: std::primitive::char>;
+pub struct char<const char: core::primitive::char>;
 
 macro_rules! letters {
     ($($letter:ident)*) => {
         $(
             #[doc(hidden)]
             pub type $letter = char<{
-                stringify!($letter).as_bytes()[0] as std::primitive::char
+                stringify!($letter).as_bytes()[0] as core::primitive::char
             }>;
         )*
     };
@@ -20,17 +20,17 @@ letters! {
 #[doc(hidden)]
 pub mod two {
     #[doc(hidden)]
-    pub struct char<const char: std::primitive::char>;
+    pub struct char<const char: core::primitive::char>;
 }
 
 #[doc(hidden)]
 pub mod three {
     #[doc(hidden)]
-    pub struct char<const char: std::primitive::char>;
+    pub struct char<const char: core::primitive::char>;
 }
 
 #[doc(hidden)]
 pub mod four {
     #[doc(hidden)]
-    pub struct char<const char: std::primitive::char>;
+    pub struct char<const char: core::primitive::char>;
 }

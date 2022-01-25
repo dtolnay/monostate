@@ -1,3 +1,4 @@
+#![no_std]
 #![allow(non_camel_case_types, non_upper_case_globals)]
 
 #[doc(hidden)]
@@ -46,7 +47,7 @@ pub struct MustBeI128<const i128: i128>;
 pub struct MustBeBool<const bool: bool>;
 
 mod void {
-    use std::marker::PhantomData;
+    use core::marker::PhantomData;
 
     enum Void {}
 
