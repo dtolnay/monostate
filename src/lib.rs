@@ -4,6 +4,7 @@
 #[doc(hidden)]
 pub mod alphabet;
 mod debug;
+mod serialize;
 mod string;
 
 pub use monostate_impl::MustBe;
