@@ -16,6 +16,7 @@ mod debug;
 mod default;
 mod deserialize;
 mod eq;
+mod format;
 mod hash;
 mod ord;
 mod partial_eq;

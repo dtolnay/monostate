@@ -1,5 +1,6 @@
+use crate::format;
 use crate::string::RetrieveString;
-use core::fmt;
+use core::fmt::{self, Write as _};
 use core::mem;
 use core::slice;
 use core::str;
@@ -69,7 +70,13 @@ impl<'de, const V: u128> Deserialize<'de> for crate::MustBePosInt<V> {
                 if v >= 0 && v as u128 == self.0 {
                     Ok(())
                 } else {
-                    Err(E::invalid_value(Unexpected::Other("i128"), &self))
+                    let mut buf = [0u8; 50];
+                    let mut writer = format::Buf::new(&mut buf);
+                    write!(writer, "integer `{}`", v).unwrap();
+                    Err(Error::invalid_value(
+                        Unexpected::Other(writer.as_str()),
+                        &self,
+                    ))
                 }
             }
 
@@ -91,7 +98,13 @@ impl<'de, const V: u128> Deserialize<'de> for crate::MustBePosInt<V> {
                 if v == self.0 {
                     Ok(())
                 } else {
-                    Err(E::invalid_value(Unexpected::Other("u128"), &self))
+                    let mut buf = [0u8; 49];
+                    let mut writer = format::Buf::new(&mut buf);
+                    write!(writer, "integer `{}`", v).unwrap();
+                    Err(Error::invalid_value(
+                        Unexpected::Other(writer.as_str()),
+                        &self,
+                    ))
                 }
             }
         }
@@ -134,7 +147,13 @@ impl<'de, const V: i128> Deserialize<'de> for crate::MustBeNegInt<V> {
                 if v == self.0 {
                     Ok(())
                 } else {
-                    Err(E::invalid_value(Unexpected::Other("i128"), &self))
+                    let mut buf = [0u8; 50];
+                    let mut writer = format::Buf::new(&mut buf);
+                    write!(writer, "integer `{}`", v).unwrap();
+                    Err(Error::invalid_value(
+                        Unexpected::Other(writer.as_str()),
+                        &self,
+                    ))
                 }
             }
 
@@ -156,7 +175,13 @@ impl<'de, const V: i128> Deserialize<'de> for crate::MustBeNegInt<V> {
                 if self.0 >= 0 && v == self.0 as u128 {
                     Ok(())
                 } else {
-                    Err(E::invalid_value(Unexpected::Other("u128"), &self))
+                    let mut buf = [0u8; 49];
+                    let mut writer = format::Buf::new(&mut buf);
+                    write!(writer, "integer `{}`", v).unwrap();
+                    Err(Error::invalid_value(
+                        Unexpected::Other(writer.as_str()),
+                        &self,
+                    ))
                 }
             }
         }
@@ -337,7 +362,13 @@ impl<'de, const V: u128> Deserialize<'de> for crate::MustBeU128<V> {
                 if v == self.0 {
                     Ok(())
                 } else {
-                    Err(E::invalid_value(Unexpected::Other("u128"), &self))
+                    let mut buf = [0u8; 49];
+                    let mut writer = format::Buf::new(&mut buf);
+                    write!(writer, "integer `{}`", v).unwrap();
+                    Err(Error::invalid_value(
+                        Unexpected::Other(writer.as_str()),
+                        &self,
+                    ))
                 }
             }
         }
@@ -518,7 +549,13 @@ impl<'de, const V: i128> Deserialize<'de> for crate::MustBeI128<V> {
                 if v == self.0 {
                     Ok(())
                 } else {
-                    Err(E::invalid_value(Unexpected::Other("i128"), &self))
+                    let mut buf = [0u8; 50];
+                    let mut writer = format::Buf::new(&mut buf);
+                    write!(writer, "integer `{}`", v).unwrap();
+                    Err(Error::invalid_value(
+                        Unexpected::Other(writer.as_str()),
+                        &self,
+                    ))
                 }
             }
         }
