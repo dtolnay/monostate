@@ -1,3 +1,5 @@
+#![allow(clippy::derive_partial_eq_without_eq)]
+
 use monostate::MustBe;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
