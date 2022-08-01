@@ -2,6 +2,7 @@
 name = "monostate"
 version = "0.1.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
+categories = ["encoding", "rust-patterns", "no-std"]
 description = "Type that deserializes only from one specific value"
 documentation = "https://docs.rs/monostate"
 edition = "2021"
