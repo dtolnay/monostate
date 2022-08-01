@@ -2,14 +2,14 @@
 name = "monostate"
 version = "0.1.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
-edition = "2021"
-rust-version = "1.56"
-license = "MIT OR Apache-2.0"
 description = "Type that deserializes only from one specific value"
-repository = "https://github.com/dtolnay/monostate"
 documentation = "https://docs.rs/monostate"
-readme = "README.md"
+edition = "2021"
 keywords = ["serde", "serialization"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/dtolnay/monostate"
+rust-version = "1.56"
 
 [dependencies]
 monostate-impl = { version = "=0.1.0", path = "impl" }
