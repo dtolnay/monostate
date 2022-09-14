@@ -8,7 +8,6 @@ documentation = "https://docs.rs/monostate"
 edition = "2021"
 keywords = ["serde", "serialization"]
 license = "MIT OR Apache-2.0"
-readme = "README.md"
 repository = "https://github.com/dtolnay/monostate"
 rust-version = "1.56"
 
