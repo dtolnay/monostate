@@ -1,9 +1,11 @@
 #![allow(
     clippy::cast_lossless,
     clippy::manual_range_contains,
+    clippy::match_same_arms,
     clippy::needless_pass_by_value,
     clippy::unnecessary_wraps
 )]
+#![cfg_attr(all(test, exhaustive), feature(non_exhaustive_omitted_patterns_lint))]
 
 use proc_macro::TokenStream;
 use proc_macro2::{Ident, Span, TokenStream as TokenStream2};
@@ -25,6 +27,8 @@ pub fn MustBe(input: TokenStream) -> TokenStream {
         Lit::Int(lit) => must_be_int(lit),
         Lit::Bool(lit) => must_be_bool(lit.value),
         Lit::ByteStr(_) | Lit::Float(_) | Lit::Verbatim(_) => unsupported(lit),
+        #[cfg_attr(all(test, exhaustive), deny(non_exhaustive_omitted_patterns))]
+        _ => unsupported(lit),
     };
     expanded.unwrap_or_else(Error::into_compile_error).into()
 }
