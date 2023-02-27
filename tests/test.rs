@@ -1,4 +1,4 @@
-#![allow(clippy::derive_partial_eq_without_eq)]
+#![allow(clippy::derive_partial_eq_without_eq, clippy::let_underscore_untyped)]
 
 use monostate::MustBe;
 use serde::{Deserialize, Serialize};
