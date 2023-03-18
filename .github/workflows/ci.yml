@@ -34,7 +34,9 @@ jobs:
       - name: Enable type layout randomization
         run: echo RUSTFLAGS=${RUSTFLAGS}\ -Zrandomize-layout >> $GITHUB_ENV
         if: matrix.rust == 'nightly'
-      - run: cargo test
+      - run: cargo test --workspace
+        env:
+          RUSTFLAGS: ${{env.RUSTFLAGS}} ${{matrix.rust == 'nightly' && '--cfg exhaustive' || ''}}
 
   clippy:
     name: Clippy
