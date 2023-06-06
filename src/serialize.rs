@@ -13,6 +13,43 @@ impl<const V: char> Serialize for crate::MustBeChar<V> {
     }
 }
 
+
+impl<const V: u128> Serialize for crate::MustBePosInt<V> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_u128(V)
+    }
+}
+
+impl<const V: i128> Serialize for crate::MustBeNegInt<V> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_i128(V)
+    }
+}
+
+impl<const V: u8> Serialize for crate::MustBeU8<V> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_u8(V)
+    }
+}
+
+impl<const V: char> Serialize for crate::MustBeChar<V> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_char(V)
+    }
+}
+
 impl<const V: u8> Serialize for crate::MustBeU8<V> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
