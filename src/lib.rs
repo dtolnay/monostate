@@ -143,7 +143,7 @@ mod void {
 
     impl Clone for Void {
         fn clone(&self) -> Self {
-            match *self {}
+            *self
         }
     }
 
