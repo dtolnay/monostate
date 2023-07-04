@@ -49,7 +49,7 @@
 //! ```
 
 #![no_std]
-#![doc(html_root_url = "https://docs.rs/monostate/0.1.7")]
+#![doc(html_root_url = "https://docs.rs/monostate/0.1.8")]
 #![allow(non_camel_case_types, non_upper_case_globals)]
 #![allow(
     clippy::borrow_as_ptr,
