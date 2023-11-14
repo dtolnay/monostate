@@ -159,6 +159,7 @@ mod void {
 }
 
 mod value {
+    #[doc(hidden)]
     pub use super::MustBeStr::MustBeStr;
 }
 
