@@ -59,7 +59,8 @@
     clippy::expl_impl_clone_on_copy,
     clippy::missing_safety_doc,
     clippy::module_name_repetitions,
-    clippy::ptr_as_ptr
+    clippy::ptr_as_ptr,
+    clippy::uninhabited_references
 )]
 
 #[doc(hidden)]
