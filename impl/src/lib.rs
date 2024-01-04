@@ -20,6 +20,8 @@ const K: usize = 6;
 #[proc_macro]
 pub fn MustBe(input: TokenStream) -> TokenStream {
     let lit = parse_macro_input!(input as Lit);
+
+    #[cfg_attr(all(test, exhaustive), deny(non_exhaustive_omitted_patterns))]
     let expanded = match lit {
         Lit::Str(lit) => must_be_str(lit.value()),
         Lit::Byte(lit) => must_be_byte(lit.value()),
@@ -27,9 +29,9 @@ pub fn MustBe(input: TokenStream) -> TokenStream {
         Lit::Int(lit) => must_be_int(lit),
         Lit::Bool(lit) => must_be_bool(lit.value),
         Lit::ByteStr(_) | Lit::Float(_) | Lit::Verbatim(_) => unsupported(lit),
-        #[cfg_attr(all(test, exhaustive), deny(non_exhaustive_omitted_patterns))]
         _ => unsupported(lit),
     };
+
     expanded.unwrap_or_else(Error::into_compile_error).into()
 }
 
