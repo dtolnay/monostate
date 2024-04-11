@@ -27,7 +27,7 @@
 //! value.
 //!
 //! This can sometimes be helpful in processing untagged enums in which the
-//! variant indentification is more convoluted than what is handled by Serde's
+//! variant identification is more convoluted than what is handled by Serde's
 //! externally tagged and internally tagged representations, for example because
 //! the variant tag has an inconsistent type or key.
 //!
