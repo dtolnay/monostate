@@ -28,7 +28,7 @@ pub fn MustBe(input: TokenStream) -> TokenStream {
         Lit::Char(lit) => must_be_char(lit.value()),
         Lit::Int(lit) => must_be_int(lit),
         Lit::Bool(lit) => must_be_bool(lit.value),
-        Lit::ByteStr(_) | Lit::Float(_) | Lit::Verbatim(_) => unsupported(lit),
+        Lit::ByteStr(_) | Lit::CStr(_) | Lit::Float(_) | Lit::Verbatim(_) => unsupported(lit),
         _ => unsupported(lit),
     };
 
