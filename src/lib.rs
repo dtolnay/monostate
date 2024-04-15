@@ -60,7 +60,8 @@
     clippy::missing_safety_doc,
     clippy::module_name_repetitions,
     clippy::ptr_as_ptr,
-    clippy::uninhabited_references
+    clippy::uninhabited_references,
+    clippy::uninlined_format_args
 )]
 
 #[doc(hidden)]

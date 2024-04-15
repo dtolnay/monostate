@@ -3,6 +3,7 @@
     clippy::manual_range_contains,
     clippy::match_same_arms,
     clippy::needless_pass_by_value,
+    clippy::uninlined_format_args,
     clippy::unnecessary_wraps
 )]
 #![cfg_attr(all(test, exhaustive), feature(non_exhaustive_omitted_patterns_lint))]
