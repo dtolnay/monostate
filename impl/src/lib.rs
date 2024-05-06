@@ -1,3 +1,4 @@
+#![cfg_attr(not(check_cfg), allow(unexpected_cfgs))]
 #![allow(
     clippy::cast_lossless,
     clippy::manual_range_contains,
