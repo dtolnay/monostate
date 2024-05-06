@@ -4,6 +4,7 @@ version = "0.1.12"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 description = "Implementation detail of the monostate crate"
 edition = "2021"
+exclude = ["build.rs"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/dtolnay/monostate"
 rust-version = "1.60"
