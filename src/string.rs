@@ -20,7 +20,7 @@ unsafe impl<const CH: char> RetrieveString for alphabet::char<CH> {
 unsafe impl<const CH: char> RetrieveString for alphabet::two::char<CH> {
     type Type = [u8; 2];
     const BYTES: Self::Type = [
-        (CH as u32 >> 6 & 0x1F) as u8 | TAG_TWO_B,
+        ((CH as u32 >> 6) & 0x1F) as u8 | TAG_TWO_B,
         (CH as u32 & 0x3F) as u8 | TAG_CONT,
     ];
 }
@@ -28,8 +28,8 @@ unsafe impl<const CH: char> RetrieveString for alphabet::two::char<CH> {
 unsafe impl<const CH: char> RetrieveString for alphabet::three::char<CH> {
     type Type = [u8; 3];
     const BYTES: Self::Type = [
-        (CH as u32 >> 12 & 0x0F) as u8 | TAG_THREE_B,
-        (CH as u32 >> 6 & 0x3F) as u8 | TAG_CONT,
+        ((CH as u32 >> 12) & 0x0F) as u8 | TAG_THREE_B,
+        ((CH as u32 >> 6) & 0x3F) as u8 | TAG_CONT,
         (CH as u32 & 0x3F) as u8 | TAG_CONT,
     ];
 }
@@ -37,9 +37,9 @@ unsafe impl<const CH: char> RetrieveString for alphabet::three::char<CH> {
 unsafe impl<const CH: char> RetrieveString for alphabet::four::char<CH> {
     type Type = [u8; 4];
     const BYTES: Self::Type = [
-        (CH as u32 >> 18 & 0x07) as u8 | TAG_FOUR_B,
-        (CH as u32 >> 12 & 0x3F) as u8 | TAG_CONT,
-        (CH as u32 >> 6 & 0x3F) as u8 | TAG_CONT,
+        ((CH as u32 >> 18) & 0x07) as u8 | TAG_FOUR_B,
+        ((CH as u32 >> 12) & 0x3F) as u8 | TAG_CONT,
+        ((CH as u32 >> 6) & 0x3F) as u8 | TAG_CONT,
         (CH as u32 & 0x3F) as u8 | TAG_CONT,
     ];
 }
