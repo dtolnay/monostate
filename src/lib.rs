@@ -66,6 +66,8 @@
     clippy::uninlined_format_args
 )]
 
+extern crate serde_core as serde;
+
 #[doc(hidden)]
 pub mod alphabet;
 mod debug;
