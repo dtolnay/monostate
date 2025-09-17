@@ -1,9 +1,5 @@
 use crate::string::RetrieveString;
-use crate::MustBeStr::MustBeStr;
 use core::cmp::Ordering;
-use core::mem;
-use core::slice;
-use core::str;
 
 impl<const V: char, const W: char> PartialOrd<crate::MustBeChar<W>> for crate::MustBeChar<V> {
     fn partial_cmp(&self, _: &crate::MustBeChar<W>) -> Option<Ordering> {
@@ -95,8 +91,9 @@ where
     W: RetrieveString,
 {
     fn partial_cmp(&self, _: &crate::MustBeStr<W>) -> Option<Ordering> {
-        Some(Self::with_str(|s1| {
-            crate::MustBeStr::<W>::with_str(|s2| s1.cmp(s2))
-        }))
+        crate::get_str!(s1 = Self);
+        crate::get_str!(s2 = crate::MustBeStr<W>);
+
+        Some(s1.cmp(s2))
     }
 }

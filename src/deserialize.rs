@@ -1,9 +1,6 @@
 use crate::format;
 use crate::string::RetrieveString;
 use core::fmt::{self, Write as _};
-use core::mem;
-use core::slice;
-use core::str;
 use serde::de::{Deserialize, Deserializer, Error, Unexpected, Visitor};
 
 impl<'de, const V: char> Deserialize<'de> for crate::MustBeChar<V> {
@@ -624,10 +621,10 @@ impl<'de, V: RetrieveString> Deserialize<'de> for crate::MustBeStr<V> {
             }
         }
 
-        Self::with_str(|s| {
-            deserializer
-                .deserialize_any(MustBeStrVisitor(s))
-                .map(|()| crate::MustBeStr)
-        })
+        crate::get_str!(s = Self);
+
+        deserializer
+            .deserialize_any(MustBeStrVisitor(s))
+            .map(|()| crate::MustBeStr)
     }
 }

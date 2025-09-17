@@ -1,7 +1,4 @@
 use crate::string::RetrieveString;
-use core::mem;
-use core::slice;
-use core::str;
 use serde::{Serialize, Serializer};
 
 impl<const V: char> Serialize for crate::MustBeChar<V> {
@@ -117,6 +114,7 @@ impl<V: RetrieveString> Serialize for crate::MustBeStr<V> {
     where
         S: Serializer,
     {
-        Self::with_str(|s| serializer.serialize_str(s))
+        crate::get_str!(s = Self);
+        serializer.serialize_str(s)
     }
 }

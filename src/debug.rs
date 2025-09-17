@@ -1,8 +1,5 @@
 use crate::string::RetrieveString;
 use core::fmt::{self, Debug};
-use core::mem;
-use core::slice;
-use core::str;
 
 impl<const V: char> Debug for crate::MustBeChar<V> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -90,6 +87,8 @@ impl<const V: bool> Debug for crate::MustBeBool<V> {
 
 impl<V: RetrieveString> Debug for crate::MustBeStr<V> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        Self::with_str(|s| write!(formatter, "MustBe!({:?})", s))
+        crate::get_str!(s = Self);
+
+        write!(formatter, "MustBe!({:?})", s)
     }
 }

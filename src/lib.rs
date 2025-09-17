@@ -188,3 +188,41 @@ impl<str> Clone for MustBeStr<str> {
 
 #[doc(hidden)]
 pub use self::value::*;
+
+#[doc(hidden)]
+pub trait MustBeString {
+    type Type;
+    const BYTES: Self::Type;
+    const SIZE: usize;
+}
+#[doc(hidden)]
+impl<V: string::RetrieveString> MustBeString for crate::MustBeStr<V> {
+    type Type = V::Type;
+    const BYTES: Self::Type = V::BYTES;
+    const SIZE: usize = core::mem::size_of::<Self::Type>();
+}
+
+/// generate a stack allocated str equal to string argument of [`MustBe`]
+///
+/// ```
+/// use monostate::{MustBe, get_str};
+///
+/// type MyStr = MustBe!("hello");
+///
+///
+/// get_str!(s = MyStr);
+///
+/// assert_eq!(s, "hello");
+/// ```
+#[macro_export]
+macro_rules! get_str {
+    ($var:ident = $type:ty) => {
+        let $var: <$type as $crate::MustBeString>::Type = <$type as $crate::MustBeString>::BYTES;
+        let $var = unsafe {
+            core::str::from_utf8_unchecked(core::slice::from_raw_parts(
+                &$var as *const <$type as $crate::MustBeString>::Type as *const u8,
+                <$type as $crate::MustBeString>::SIZE,
+            ))
+        };
+    };
+}
