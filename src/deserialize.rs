@@ -1,9 +1,6 @@
 use crate::format;
 use crate::string::RetrieveString;
 use core::fmt::{self, Write as _};
-use core::mem;
-use core::slice;
-use core::str;
 use serde::de::{Deserialize, Deserializer, Error, Unexpected, Visitor};
 
 impl<'de, const V: char> Deserialize<'de> for crate::MustBeChar<V> {
@@ -603,9 +600,9 @@ impl<'de, V: RetrieveString> Deserialize<'de> for crate::MustBeStr<V> {
     where
         D: Deserializer<'de>,
     {
-        struct MustBeStrVisitor(&'static str);
+        struct MustBeStrVisitor<'a>(&'a str);
 
-        impl<'de> Visitor<'de> for MustBeStrVisitor {
+        impl<'de> Visitor<'de> for MustBeStrVisitor<'_> {
             type Value = ();
 
             fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -624,13 +621,10 @@ impl<'de, V: RetrieveString> Deserialize<'de> for crate::MustBeStr<V> {
             }
         }
 
+        crate::get_str!(s = Self);
+
         deserializer
-            .deserialize_any(MustBeStrVisitor(unsafe {
-                str::from_utf8_unchecked(slice::from_raw_parts(
-                    &V::BYTES as *const V::Type as *const u8,
-                    mem::size_of::<V::Type>(),
-                ))
-            }))
+            .deserialize_any(MustBeStrVisitor(s))
             .map(|()| crate::MustBeStr)
     }
 }
