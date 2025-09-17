@@ -117,11 +117,6 @@ impl<V: RetrieveString> Serialize for crate::MustBeStr<V> {
     where
         S: Serializer,
     {
-        serializer.serialize_str(unsafe {
-            str::from_utf8_unchecked(slice::from_raw_parts(
-                &V::BYTES as *const V::Type as *const u8,
-                mem::size_of::<V::Type>(),
-            ))
-        })
+        Self::with_str(|s| serializer.serialize_str(s))
     }
 }

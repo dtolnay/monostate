@@ -1,4 +1,5 @@
 use crate::string::RetrieveString;
+use crate::MustBeStr::MustBeStr;
 use core::cmp::Ordering;
 use core::mem;
 use core::slice;
@@ -94,15 +95,8 @@ where
     W: RetrieveString,
 {
     fn partial_cmp(&self, _: &crate::MustBeStr<W>) -> Option<Ordering> {
-        Some(unsafe {
-            str::from_utf8_unchecked(slice::from_raw_parts(
-                &V::BYTES as *const V::Type as *const u8,
-                mem::size_of::<V::Type>(),
-            ))
-            .cmp(str::from_utf8_unchecked(slice::from_raw_parts(
-                &W::BYTES as *const W::Type as *const u8,
-                mem::size_of::<W::Type>(),
-            )))
-        })
+        Some(Self::with_str(|s1| {
+            crate::MustBeStr::<W>::with_str(|s2| s1.cmp(s2))
+        }))
     }
 }

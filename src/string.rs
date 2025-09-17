@@ -1,4 +1,4 @@
-use crate::alphabet;
+use crate::{alphabet, MustBeStr::MustBeStr};
 
 const TAG_CONT: u8 = 0b1000_0000;
 const TAG_TWO_B: u8 = 0b1100_0000;
@@ -117,4 +117,17 @@ where
 {
     type Type = Concat6<A::Type, B::Type, C::Type, D::Type, E::Type, F::Type>;
     const BYTES: Self::Type = Concat6(A::BYTES, B::BYTES, C::BYTES, D::BYTES, E::BYTES, F::BYTES);
+}
+
+impl<V: RetrieveString> crate::MustBeStr<V> {
+    pub fn with_str<R>(f: impl FnOnce(&str) -> R) -> R {
+        let str = unsafe {
+            str::from_utf8_unchecked(core::slice::from_raw_parts(
+                &V::BYTES as *const V::Type as *const u8,
+                core::mem::size_of::<V::Type>(),
+            ))
+        };
+
+        f(str)
+    }
 }

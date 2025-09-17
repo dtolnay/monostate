@@ -90,11 +90,6 @@ impl<const V: bool> Debug for crate::MustBeBool<V> {
 
 impl<V: RetrieveString> Debug for crate::MustBeStr<V> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        write!(formatter, "MustBe!({:?})", unsafe {
-            str::from_utf8_unchecked(slice::from_raw_parts(
-                &V::BYTES as *const V::Type as *const u8,
-                mem::size_of::<V::Type>(),
-            ))
-        })
+        Self::with_str(|s| write!(formatter, "MustBe!({:?})", s))
     }
 }
