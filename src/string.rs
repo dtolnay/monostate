@@ -27,7 +27,7 @@ pub trait Sealed {
 
 impl<T, const N: usize> Sealed for (len<N>, T)
 where
-    T: RetrieveString,
+    T: StringBuffer,
 {
     const VALUE: &str = unsafe {
         str::from_utf8_unchecked(slice::from_raw_parts(
@@ -43,7 +43,7 @@ where
     };
 }
 
-union Cast<T: RetrieveString, const N: usize> {
+union Cast<T: StringBuffer, const N: usize> {
     encoded: ManuallyDrop<T::Type>,
     array: [u8; N],
 }
@@ -53,19 +53,19 @@ const TAG_TWO_B: u8 = 0b1100_0000;
 const TAG_THREE_B: u8 = 0b1110_0000;
 const TAG_FOUR_B: u8 = 0b1111_0000;
 
-pub unsafe trait RetrieveString {
+pub unsafe trait StringBuffer {
     // SAFETY: Must contain no padding bytes. Must have alignment of 1.
     type Type: 'static;
     // SAFETY: Contents viewed as bytes must be a valid UTF-8 encoding.
     const BYTES: Self::Type;
 }
 
-unsafe impl<const CH: char> RetrieveString for alphabet::char<CH> {
+unsafe impl<const CH: char> StringBuffer for alphabet::char<CH> {
     type Type = u8;
     const BYTES: Self::Type = CH as u8;
 }
 
-unsafe impl<const CH: char> RetrieveString for alphabet::two::char<CH> {
+unsafe impl<const CH: char> StringBuffer for alphabet::two::char<CH> {
     type Type = [u8; 2];
     const BYTES: Self::Type = [
         ((CH as u32 >> 6) & 0x1F) as u8 | TAG_TWO_B,
@@ -73,7 +73,7 @@ unsafe impl<const CH: char> RetrieveString for alphabet::two::char<CH> {
     ];
 }
 
-unsafe impl<const CH: char> RetrieveString for alphabet::three::char<CH> {
+unsafe impl<const CH: char> StringBuffer for alphabet::three::char<CH> {
     type Type = [u8; 3];
     const BYTES: Self::Type = [
         ((CH as u32 >> 12) & 0x0F) as u8 | TAG_THREE_B,
@@ -82,7 +82,7 @@ unsafe impl<const CH: char> RetrieveString for alphabet::three::char<CH> {
     ];
 }
 
-unsafe impl<const CH: char> RetrieveString for alphabet::four::char<CH> {
+unsafe impl<const CH: char> StringBuffer for alphabet::four::char<CH> {
     type Type = [u8; 4];
     const BYTES: Self::Type = [
         ((CH as u32 >> 18) & 0x07) as u8 | TAG_FOUR_B,
@@ -92,7 +92,7 @@ unsafe impl<const CH: char> RetrieveString for alphabet::four::char<CH> {
     ];
 }
 
-unsafe impl RetrieveString for () {
+unsafe impl StringBuffer for () {
     type Type = ();
     const BYTES: Self::Type = ();
 }
@@ -100,10 +100,10 @@ unsafe impl RetrieveString for () {
 #[repr(C)]
 pub struct Concat2<A, B>(A, B);
 
-unsafe impl<A, B> RetrieveString for (A, B)
+unsafe impl<A, B> StringBuffer for (A, B)
 where
-    A: RetrieveString,
-    B: RetrieveString,
+    A: StringBuffer,
+    B: StringBuffer,
 {
     type Type = Concat2<A::Type, B::Type>;
     const BYTES: Self::Type = Concat2(A::BYTES, B::BYTES);
@@ -112,11 +112,11 @@ where
 #[repr(C)]
 pub struct Concat3<A, B, C>(A, B, C);
 
-unsafe impl<A, B, C> RetrieveString for (A, B, C)
+unsafe impl<A, B, C> StringBuffer for (A, B, C)
 where
-    A: RetrieveString,
-    B: RetrieveString,
-    C: RetrieveString,
+    A: StringBuffer,
+    B: StringBuffer,
+    C: StringBuffer,
 {
     type Type = Concat3<A::Type, B::Type, C::Type>;
     const BYTES: Self::Type = Concat3(A::BYTES, B::BYTES, C::BYTES);
@@ -125,12 +125,12 @@ where
 #[repr(C)]
 pub struct Concat4<A, B, C, D>(A, B, C, D);
 
-unsafe impl<A, B, C, D> RetrieveString for (A, B, C, D)
+unsafe impl<A, B, C, D> StringBuffer for (A, B, C, D)
 where
-    A: RetrieveString,
-    B: RetrieveString,
-    C: RetrieveString,
-    D: RetrieveString,
+    A: StringBuffer,
+    B: StringBuffer,
+    C: StringBuffer,
+    D: StringBuffer,
 {
     type Type = Concat4<A::Type, B::Type, C::Type, D::Type>;
     const BYTES: Self::Type = Concat4(A::BYTES, B::BYTES, C::BYTES, D::BYTES);
@@ -139,13 +139,13 @@ where
 #[repr(C)]
 pub struct Concat5<A, B, C, D, E>(A, B, C, D, E);
 
-unsafe impl<A, B, C, D, E> RetrieveString for (A, B, C, D, E)
+unsafe impl<A, B, C, D, E> StringBuffer for (A, B, C, D, E)
 where
-    A: RetrieveString,
-    B: RetrieveString,
-    C: RetrieveString,
-    D: RetrieveString,
-    E: RetrieveString,
+    A: StringBuffer,
+    B: StringBuffer,
+    C: StringBuffer,
+    D: StringBuffer,
+    E: StringBuffer,
 {
     type Type = Concat5<A::Type, B::Type, C::Type, D::Type, E::Type>;
     const BYTES: Self::Type = Concat5(A::BYTES, B::BYTES, C::BYTES, D::BYTES, E::BYTES);
@@ -154,14 +154,14 @@ where
 #[repr(C)]
 pub struct Concat6<A, B, C, D, E, F>(A, B, C, D, E, F);
 
-unsafe impl<A, B, C, D, E, F> RetrieveString for (A, B, C, D, E, F)
+unsafe impl<A, B, C, D, E, F> StringBuffer for (A, B, C, D, E, F)
 where
-    A: RetrieveString,
-    B: RetrieveString,
-    C: RetrieveString,
-    D: RetrieveString,
-    E: RetrieveString,
-    F: RetrieveString,
+    A: StringBuffer,
+    B: StringBuffer,
+    C: StringBuffer,
+    D: StringBuffer,
+    E: StringBuffer,
+    F: StringBuffer,
 {
     type Type = Concat6<A::Type, B::Type, C::Type, D::Type, E::Type, F::Type>;
     const BYTES: Self::Type = Concat6(A::BYTES, B::BYTES, C::BYTES, D::BYTES, E::BYTES, F::BYTES);
