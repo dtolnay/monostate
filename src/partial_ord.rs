@@ -1,6 +1,7 @@
 use crate::string::ConstStr;
 use core::cmp::Ordering;
 use core::mem;
+use core::ptr;
 use core::slice;
 use core::str;
 
@@ -96,11 +97,11 @@ where
     fn partial_cmp(&self, _: &crate::MustBeStr<W>) -> Option<Ordering> {
         Some(unsafe {
             str::from_utf8_unchecked(slice::from_raw_parts(
-                &V::BYTES as *const V::Type as *const u8,
+                ptr::from_ref(&V::BYTES) as *const u8,
                 mem::size_of::<V::Type>(),
             ))
             .cmp(str::from_utf8_unchecked(slice::from_raw_parts(
-                &W::BYTES as *const W::Type as *const u8,
+                ptr::from_ref(&W::BYTES) as *const u8,
                 mem::size_of::<W::Type>(),
             )))
         })
