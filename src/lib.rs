@@ -85,58 +85,59 @@ mod string;
 mod value;
 
 pub use crate::string::ConstStr;
+pub use crate::value::MustBe;
 pub use monostate_impl::MustBe;
 
 #[derive(Copy, Clone)]
-pub struct MustBeChar<const char: char>;
+pub struct MustBeChar<const V: char>;
 
 #[derive(Copy, Clone)]
 #[doc(hidden)]
-pub struct MustBePosInt<const u128: u128>;
+pub struct MustBePosInt<const V: u128>;
 
 #[derive(Copy, Clone)]
 #[doc(hidden)]
-pub struct MustBeNegInt<const i128: i128>;
+pub struct MustBeNegInt<const V: i128>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeU8<const u8: u8>;
+pub struct MustBeU8<const V: u8>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeU16<const u16: u16>;
+pub struct MustBeU16<const V: u16>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeU32<const u32: u32>;
+pub struct MustBeU32<const V: u32>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeU64<const u64: u64>;
+pub struct MustBeU64<const V: u64>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeU128<const u128: u128>;
+pub struct MustBeU128<const V: u128>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeI8<const i8: i8>;
+pub struct MustBeI8<const V: i8>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeI16<const i16: i16>;
+pub struct MustBeI16<const V: i16>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeI32<const i32: i32>;
+pub struct MustBeI32<const V: i32>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeI64<const i64: i64>;
+pub struct MustBeI64<const V: i64>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeI128<const i128: i128>;
+pub struct MustBeI128<const V: i128>;
 
 #[derive(Copy, Clone)]
-pub struct MustBeBool<const bool: bool>;
+pub struct MustBeBool<const V: bool>;
 
 #[allow(type_alias_bounds)]
-pub type MustBeStr<str: ConstStr> = crate::string::MustBeStr<str>;
+pub type MustBeStr<V: ConstStr> = crate::string::MustBeStr<V>;
 
-impl<str: ConstStr> Copy for MustBeStr<str> {}
+impl<V: ConstStr> Copy for MustBeStr<V> {}
 
-impl<str: ConstStr> Clone for MustBeStr<str> {
+impl<V: ConstStr> Clone for MustBeStr<V> {
     fn clone(&self) -> Self {
         *self
     }

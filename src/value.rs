@@ -1,54 +1,60 @@
-use crate::string::{ConstStr, Sealed};
-use core::primitive;
+use crate::string::ConstStr;
 
-impl<const char: char> crate::MustBeChar<{ char }> {
-    pub const VALUE: char = char;
+pub trait MustBe: Sealed {
+    type Type;
+    const VALUE: Self::Type;
 }
 
-impl<const u8: u8> crate::MustBeU8<{ u8 }> {
-    pub const VALUE: u8 = u8;
+pub trait Sealed {}
+
+impl<const V: char> crate::MustBeChar<V> {
+    pub const VALUE: char = V;
 }
 
-impl<const u16: u16> crate::MustBeU16<{ u16 }> {
-    pub const VALUE: u16 = u16;
+impl<const V: u8> crate::MustBeU8<V> {
+    pub const VALUE: u8 = V;
 }
 
-impl<const u32: u32> crate::MustBeU32<{ u32 }> {
-    pub const VALUE: u32 = u32;
+impl<const V: u16> crate::MustBeU16<V> {
+    pub const VALUE: u16 = V;
 }
 
-impl<const u64: u64> crate::MustBeU64<{ u64 }> {
-    pub const VALUE: u64 = u64;
+impl<const V: u32> crate::MustBeU32<V> {
+    pub const VALUE: u32 = V;
 }
 
-impl<const u128: u128> crate::MustBeU128<{ u128 }> {
-    pub const VALUE: u128 = u128;
+impl<const V: u64> crate::MustBeU64<V> {
+    pub const VALUE: u64 = V;
 }
 
-impl<const i8: i8> crate::MustBeI8<{ i8 }> {
-    pub const VALUE: i8 = i8;
+impl<const V: u128> crate::MustBeU128<V> {
+    pub const VALUE: u128 = V;
 }
 
-impl<const i16: i16> crate::MustBeI16<{ i16 }> {
-    pub const VALUE: i16 = i16;
+impl<const V: i8> crate::MustBeI8<V> {
+    pub const VALUE: i8 = V;
 }
 
-impl<const i32: i32> crate::MustBeI32<{ i32 }> {
-    pub const VALUE: i32 = i32;
+impl<const V: i16> crate::MustBeI16<V> {
+    pub const VALUE: i16 = V;
 }
 
-impl<const i64: i64> crate::MustBeI64<{ i64 }> {
-    pub const VALUE: i64 = i64;
+impl<const V: i32> crate::MustBeI32<V> {
+    pub const VALUE: i32 = V;
 }
 
-impl<const i128: i128> crate::MustBeI128<{ i128 }> {
-    pub const VALUE: i128 = i128;
+impl<const V: i64> crate::MustBeI64<V> {
+    pub const VALUE: i64 = V;
 }
 
-impl<const bool: bool> crate::MustBeBool<{ bool }> {
-    pub const VALUE: bool = bool;
+impl<const V: i128> crate::MustBeI128<V> {
+    pub const VALUE: i128 = V;
 }
 
-impl<str: ConstStr> crate::MustBeStr<str> {
-    pub const VALUE: &'static primitive::str = const { <str as Sealed>::VALUE };
+impl<const V: bool> crate::MustBeBool<V> {
+    pub const VALUE: bool = V;
+}
+
+impl<V: ConstStr> crate::MustBeStr<V> {
+    pub const VALUE: &'static str = const { <V as crate::string::Sealed>::VALUE };
 }
