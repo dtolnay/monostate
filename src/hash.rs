@@ -1,4 +1,4 @@
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 use core::hash::{Hash, Hasher};
 
 impl<const V: char> Hash for crate::MustBeChar<V> {
@@ -59,7 +59,7 @@ impl<const V: bool> Hash for crate::MustBeBool<V> {
 
 impl<V> Hash for crate::MustBeStr<V>
 where
-    V: RetrieveString,
+    V: ConstStr,
 {
     fn hash<H: Hasher>(&self, _: &mut H) {}
 }

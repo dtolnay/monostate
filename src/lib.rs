@@ -82,6 +82,7 @@ mod partial_ord;
 mod serialize;
 mod string;
 
+pub use crate::string::ConstStr;
 pub use monostate_impl::MustBe;
 
 #[derive(Copy, Clone)]
@@ -133,11 +134,12 @@ mod value {
     pub use crate::string::MustBeStr::MustBeStr;
 }
 
-pub type MustBeStr<str> = crate::string::MustBeStr<str>;
+#[allow(type_alias_bounds)]
+pub type MustBeStr<str: ConstStr> = crate::string::MustBeStr<str>;
 
-impl<str> Copy for MustBeStr<str> {}
+impl<str: ConstStr> Copy for MustBeStr<str> {}
 
-impl<str> Clone for MustBeStr<str> {
+impl<str: ConstStr> Clone for MustBeStr<str> {
     fn clone(&self) -> Self {
         *self
     }

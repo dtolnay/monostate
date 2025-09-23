@@ -1,4 +1,4 @@
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 
 impl<const V: char> Default for crate::MustBeChar<V> {
     fn default() -> Self {
@@ -86,7 +86,7 @@ impl<const V: bool> Default for crate::MustBeBool<V> {
 
 impl<V> Default for crate::MustBeStr<V>
 where
-    V: RetrieveString,
+    V: ConstStr,
 {
     fn default() -> Self {
         crate::MustBeStr::<V>

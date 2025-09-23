@@ -1,5 +1,5 @@
 use crate::format;
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 use core::fmt::{self, Write as _};
 use core::mem;
 use core::slice;
@@ -598,7 +598,7 @@ impl<'de, const V: bool> Deserialize<'de> for crate::MustBeBool<V> {
     }
 }
 
-impl<'de, V: RetrieveString> Deserialize<'de> for crate::MustBeStr<V> {
+impl<'de, V: ConstStr> Deserialize<'de> for crate::MustBeStr<V> {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,

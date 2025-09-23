@@ -3,10 +3,15 @@ use crate::alphabet;
 // Equivalent to `pub struct MustBeStr<const str: &'static str>;` but using
 // the type encoding described in impl/src/lib.rs to avoid depending on
 // #![feature(adt_const_params)] for now.
-pub enum MustBeStr<str> {
+pub enum MustBeStr<str: ConstStr> {
     __Phantom(void::MustBeStr<str>),
     MustBeStr,
 }
+
+pub trait ConstStr: RetrieveString {}
+
+#[doc(hidden)]
+impl<T> ConstStr for T where T: RetrieveString {}
 
 const TAG_CONT: u8 = 0b1000_0000;
 const TAG_TWO_B: u8 = 0b1100_0000;

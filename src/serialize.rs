@@ -1,4 +1,4 @@
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 use core::mem;
 use core::slice;
 use core::str;
@@ -112,7 +112,7 @@ impl<const V: bool> Serialize for crate::MustBeBool<V> {
     }
 }
 
-impl<V: RetrieveString> Serialize for crate::MustBeStr<V> {
+impl<V: ConstStr> Serialize for crate::MustBeStr<V> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
