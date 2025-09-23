@@ -56,6 +56,7 @@
     clippy::builtin_type_shadow,
     clippy::cast_lossless,
     clippy::cast_sign_loss,
+    clippy::derivable_impls,
     clippy::elidable_lifetime_names,
     clippy::expl_impl_clone_on_copy,
     clippy::missing_safety_doc,
