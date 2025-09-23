@@ -1,5 +1,13 @@
 use crate::alphabet;
 
+// Equivalent to `pub struct MustBeStr<const str: &'static str>;` but using
+// the type encoding described in impl/src/lib.rs to avoid depending on
+// #![feature(adt_const_params)] for now.
+pub enum MustBeStr<str> {
+    __Phantom(void::MustBeStr<str>),
+    MustBeStr,
+}
+
 const TAG_CONT: u8 = 0b1000_0000;
 const TAG_TWO_B: u8 = 0b1100_0000;
 const TAG_THREE_B: u8 = 0b1110_0000;
@@ -117,4 +125,28 @@ where
 {
     type Type = Concat6<A::Type, B::Type, C::Type, D::Type, E::Type, F::Type>;
     const BYTES: Self::Type = Concat6(A::BYTES, B::BYTES, C::BYTES, D::BYTES, E::BYTES, F::BYTES);
+}
+
+mod void {
+    use core::marker::PhantomData;
+
+    enum Void {}
+
+    impl Copy for Void {}
+
+    impl Clone for Void {
+        fn clone(&self) -> Self {
+            *self
+        }
+    }
+
+    pub struct MustBeStr<T>(PhantomData<T>, Void);
+
+    impl<T> Copy for MustBeStr<T> {}
+
+    impl<T> Clone for MustBeStr<T> {
+        fn clone(&self) -> Self {
+            *self
+        }
+    }
 }

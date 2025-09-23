@@ -140,42 +140,9 @@ pub struct MustBeI128<const i128: i128>;
 #[doc(hidden)]
 pub struct MustBeBool<const bool: bool>;
 
-mod void {
-    use core::marker::PhantomData;
-
-    enum Void {}
-
-    impl Copy for Void {}
-
-    impl Clone for Void {
-        fn clone(&self) -> Self {
-            *self
-        }
-    }
-
-    pub struct MustBeStr<T>(PhantomData<T>, Void);
-
-    impl<T> Copy for MustBeStr<T> {}
-
-    impl<T> Clone for MustBeStr<T> {
-        fn clone(&self) -> Self {
-            *self
-        }
-    }
-}
-
 mod value {
     #[doc(hidden)]
     pub use super::MustBeStr::MustBeStr;
-}
-
-// Equivalent to `pub struct MustBeStr<const str: &'static str>;` but using
-// the type encoding described in impl/src/lib.rs to avoid depending on
-// #![feature(adt_const_params)] for now.
-#[doc(hidden)]
-pub enum MustBeStr<str> {
-    __Phantom(void::MustBeStr<str>),
-    MustBeStr,
 }
 
 impl<str> Copy for MustBeStr<str> {}
@@ -186,5 +153,7 @@ impl<str> Clone for MustBeStr<str> {
     }
 }
 
+#[doc(hidden)]
+pub use self::string::MustBeStr;
 #[doc(hidden)]
 pub use self::value::*;
