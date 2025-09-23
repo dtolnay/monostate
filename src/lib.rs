@@ -82,6 +82,7 @@ mod partial_eq;
 mod partial_ord;
 mod serialize;
 mod string;
+mod value;
 
 pub use crate::string::ConstStr;
 pub use monostate_impl::MustBe;
