@@ -1,4 +1,4 @@
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 use core::any::TypeId;
 
 impl<const V: char, const W: char> PartialEq<crate::MustBeChar<W>> for crate::MustBeChar<V> {
@@ -87,8 +87,8 @@ impl<const V: bool, const W: bool> PartialEq<crate::MustBeBool<W>> for crate::Mu
 
 impl<V, W> PartialEq<crate::MustBeStr<W>> for crate::MustBeStr<V>
 where
-    V: RetrieveString,
-    W: RetrieveString,
+    V: ConstStr,
+    W: ConstStr,
 {
     fn eq(&self, _: &crate::MustBeStr<W>) -> bool {
         TypeId::of::<V::Type>() == TypeId::of::<W::Type>()

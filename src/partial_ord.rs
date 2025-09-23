@@ -1,4 +1,4 @@
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 use core::cmp::Ordering;
 use core::mem;
 use core::slice;
@@ -90,8 +90,8 @@ impl<const V: bool, const W: bool> PartialOrd<crate::MustBeBool<W>> for crate::M
 
 impl<V, W> PartialOrd<crate::MustBeStr<W>> for crate::MustBeStr<V>
 where
-    V: RetrieveString,
-    W: RetrieveString,
+    V: ConstStr,
+    W: ConstStr,
 {
     fn partial_cmp(&self, _: &crate::MustBeStr<W>) -> Option<Ordering> {
         Some(unsafe {

@@ -1,4 +1,4 @@
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 use core::cmp::Ordering;
 
 impl<const V: char> Ord for crate::MustBeChar<V> {
@@ -87,7 +87,7 @@ impl<const V: bool> Ord for crate::MustBeBool<V> {
 
 impl<V> Ord for crate::MustBeStr<V>
 where
-    V: RetrieveString,
+    V: ConstStr,
 {
     fn cmp(&self, _: &Self) -> Ordering {
         Ordering::Equal

@@ -82,6 +82,7 @@ mod partial_ord;
 mod serialize;
 mod string;
 
+pub use crate::string::ConstStr;
 pub use monostate_impl::MustBe;
 
 #[derive(Copy, Clone)]

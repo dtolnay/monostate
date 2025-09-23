@@ -1,4 +1,4 @@
-use crate::string::RetrieveString;
+use crate::string::ConstStr;
 use core::fmt::{self, Debug};
 use core::mem;
 use core::slice;
@@ -88,7 +88,7 @@ impl<const V: bool> Debug for crate::MustBeBool<V> {
     }
 }
 
-impl<V: RetrieveString> Debug for crate::MustBeStr<V> {
+impl<V: ConstStr> Debug for crate::MustBeStr<V> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         write!(formatter, "MustBe!({:?})", unsafe {
             str::from_utf8_unchecked(slice::from_raw_parts(

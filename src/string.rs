@@ -8,6 +8,11 @@ pub enum MustBeStr<str> {
     MustBeStr,
 }
 
+pub trait ConstStr: RetrieveString {}
+
+#[doc(hidden)]
+impl<T> ConstStr for T where T: RetrieveString {}
+
 const TAG_CONT: u8 = 0b1000_0000;
 const TAG_TWO_B: u8 = 0b1100_0000;
 const TAG_THREE_B: u8 = 0b1110_0000;
