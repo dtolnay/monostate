@@ -1,5 +1,6 @@
 use crate::string::ConstStr;
 use core::mem;
+use core::ptr;
 use core::slice;
 use core::str;
 use serde::{Serialize, Serializer};
@@ -119,7 +120,7 @@ impl<V: ConstStr> Serialize for crate::MustBeStr<V> {
     {
         serializer.serialize_str(unsafe {
             str::from_utf8_unchecked(slice::from_raw_parts(
-                &V::BYTES as *const V::Type as *const u8,
+                ptr::from_ref(&V::BYTES) as *const u8,
                 mem::size_of::<V::Type>(),
             ))
         })
