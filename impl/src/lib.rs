@@ -10,7 +10,7 @@
 #![cfg_attr(all(test, exhaustive), feature(non_exhaustive_omitted_patterns_lint))]
 
 use proc_macro::TokenStream;
-use proc_macro2::{Ident, Span, TokenStream as TokenStream2};
+use proc_macro2::{Ident, Literal, Span, TokenStream as TokenStream2};
 use quote::{quote, ToTokens};
 use std::mem;
 use syn::{parse_macro_input, Error, Lit, LitInt, Result};
@@ -96,7 +96,9 @@ impl ToTokens for StrNode {
 
 fn must_be_str(value: String) -> Result<TokenStream2> {
     if value.is_empty() {
-        return Ok(quote!(::monostate::MustBeStr::<()>));
+        return Ok(quote! {
+            ::monostate::MustBeStr::<(::monostate::alphabet::len<0>, ())>
+        });
     }
     let mut nodes = Vec::new();
     for ch in value.chars() {
@@ -141,8 +143,11 @@ fn must_be_str(value: String) -> Result<TokenStream2> {
         nodes.truncate(pow);
         pow /= K;
     }
+    let len = Literal::usize_unsuffixed(value.len());
     let encoded = &nodes[0];
-    Ok(quote!(::monostate::MustBeStr::<#encoded>))
+    Ok(quote! {
+        ::monostate::MustBeStr::<(::monostate::alphabet::len<#len>, #encoded)>
+    })
 }
 
 fn must_be_byte(value: u8) -> Result<TokenStream2> {

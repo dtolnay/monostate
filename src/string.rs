@@ -1,4 +1,4 @@
-use crate::alphabet;
+use crate::alphabet::{self, len};
 
 // Equivalent to `pub struct MustBeStr<const str: &'static str>;` but using
 // the type encoding described in impl/src/lib.rs to avoid depending on
@@ -8,10 +8,23 @@ pub enum MustBeStr<str: ConstStr> {
     MustBeStr,
 }
 
-pub trait ConstStr: RetrieveString {}
+pub trait ConstStr: Sealed {}
 
 #[doc(hidden)]
-impl<T> ConstStr for T where T: RetrieveString {}
+impl<T> ConstStr for T where T: Sealed {}
+
+pub trait Sealed {
+    type Type: 'static;
+    const BYTES: Self::Type;
+}
+
+impl<T, const N: usize> Sealed for (len<N>, T)
+where
+    T: RetrieveString,
+{
+    type Type = T::Type;
+    const BYTES: Self::Type = T::BYTES;
+}
 
 const TAG_CONT: u8 = 0b1000_0000;
 const TAG_TWO_B: u8 = 0b1100_0000;
