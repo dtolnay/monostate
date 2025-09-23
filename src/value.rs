@@ -50,5 +50,5 @@ impl<const bool: bool> crate::MustBeBool<{ bool }> {
 }
 
 impl<str: ConstStr> crate::MustBeStr<str> {
-    pub const VALUE: &'static primitive::str = <str as Sealed>::VALUE;
+    pub const VALUE: &'static primitive::str = const { <str as Sealed>::VALUE };
 }
