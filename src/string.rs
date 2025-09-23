@@ -1,4 +1,7 @@
-use crate::alphabet;
+use crate::alphabet::{self, len};
+use core::mem::ManuallyDrop;
+use core::slice;
+use core::str;
 
 // Equivalent to `pub struct MustBeStr<const str: &'static str>;` but using
 // the type encoding described in impl/src/lib.rs to avoid depending on
@@ -8,10 +11,41 @@ pub enum MustBeStr<str: ConstStr> {
     MustBeStr,
 }
 
-pub trait ConstStr: RetrieveString {}
+pub trait ConstStr: Sealed {}
 
 #[doc(hidden)]
-impl<T> ConstStr for T where T: RetrieveString {}
+impl<T> ConstStr for T where T: Sealed {}
+
+pub trait Sealed {
+    type Type: 'static;
+    const BYTES: Self::Type;
+    const VALUE: &'static str;
+}
+
+impl<T, const N: usize> Sealed for (len<N>, T)
+where
+    T: RetrieveString,
+{
+    type Type = T::Type;
+    const BYTES: Self::Type = T::BYTES;
+    const VALUE: &str = unsafe {
+        str::from_utf8_unchecked(slice::from_raw_parts(
+            const {
+                &Cast::<T, N> {
+                    encoded: ManuallyDrop::new(T::BYTES),
+                }
+                .array
+            }
+            .as_ptr(),
+            N,
+        ))
+    };
+}
+
+union Cast<T: RetrieveString, const N: usize> {
+    encoded: ManuallyDrop<T::Type>,
+    array: [u8; N],
+}
 
 const TAG_CONT: u8 = 0b1000_0000;
 const TAG_TWO_B: u8 = 0b1100_0000;

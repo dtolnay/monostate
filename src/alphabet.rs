@@ -1,4 +1,7 @@
 #[doc(hidden)]
+pub struct len<const N: usize>;
+
+#[doc(hidden)]
 pub struct char<const char: core::primitive::char>;
 
 macro_rules! letters {
