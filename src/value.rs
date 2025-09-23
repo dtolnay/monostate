@@ -1,7 +1,22 @@
 use crate::string::ConstStr;
+use core::fmt::{Debug, Display};
+use core::hash::Hash;
+use core::panic::{RefUnwindSafe, UnwindSafe};
+use serde::Serialize;
 
 pub trait MustBe: Sealed {
-    type Type;
+    type Type: Copy
+        + Debug
+        + Default
+        + Display
+        + Hash
+        + Ord
+        + RefUnwindSafe
+        + Send
+        + Serialize
+        + Sync
+        + Unpin
+        + UnwindSafe;
     const VALUE: Self::Type;
 }
 
@@ -119,7 +134,7 @@ impl<V: ConstStr> crate::MustBeStr<V> {
 
 impl<V: ConstStr> MustBe for crate::MustBeStr<V> {
     type Type = &'static str;
-    const VALUE: Self::Type = <V as crate::string::Sealed>::VALUE;
+    const VALUE: Self::Type = const { <V as crate::string::Sealed>::VALUE };
 }
 
 pub trait Sealed {}
