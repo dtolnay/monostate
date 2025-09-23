@@ -82,6 +82,7 @@ mod partial_eq;
 mod partial_ord;
 mod serialize;
 mod string;
+mod value;
 
 pub use crate::string::ConstStr;
 pub use monostate_impl::MustBe;
@@ -130,11 +131,6 @@ pub struct MustBeI128<const i128: i128>;
 #[derive(Copy, Clone)]
 pub struct MustBeBool<const bool: bool>;
 
-mod value {
-    #[doc(hidden)]
-    pub use crate::string::MustBeStr::MustBeStr;
-}
-
 #[allow(type_alias_bounds)]
 pub type MustBeStr<str: ConstStr> = crate::string::MustBeStr<str>;
 
@@ -147,4 +143,4 @@ impl<str: ConstStr> Clone for MustBeStr<str> {
 }
 
 #[doc(hidden)]
-pub use self::value::*;
+pub use self::string::value::*;
