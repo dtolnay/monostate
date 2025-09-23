@@ -16,20 +16,31 @@ pub mod value {
     pub use crate::string::MustBeStr::MustBeStr;
 }
 
-pub trait ConstStr: Sealed {}
-
-#[doc(hidden)]
-impl<T> ConstStr for T where T: Sealed {}
-
-pub trait Sealed {
+pub trait ConstStr: Sealed {
     const VALUE: &'static str;
 }
+
+#[doc(hidden)]
+impl<T> ConstStr for T
+where
+    T: Sealed,
+{
+    const VALUE: &'static str = T::__private.0;
+}
+
+pub trait Sealed {
+    #[allow(private_interfaces)]
+    const __private: StringValue;
+}
+
+struct StringValue(&'static str);
 
 impl<T, const N: usize> Sealed for (len<N>, T)
 where
     T: StringBuffer,
 {
-    const VALUE: &str = unsafe {
+    #[allow(private_interfaces)]
+    const __private: StringValue = StringValue(unsafe {
         str::from_utf8_unchecked(slice::from_raw_parts(
             const {
                 &Cast::<T, N> {
@@ -40,7 +51,7 @@ where
             .as_ptr(),
             N,
         ))
-    };
+    });
 }
 
 union Cast<T: StringBuffer, const N: usize> {
