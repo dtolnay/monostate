@@ -6,8 +6,8 @@ use core::str;
 // Equivalent to `pub struct MustBeStr<const str: &'static str>;` but using
 // the type encoding described in impl/src/lib.rs to avoid depending on
 // #![feature(adt_const_params)] for now.
-pub enum MustBeStr<str: ConstStr> {
-    __Phantom(void::MustBeStr<str>),
+pub enum MustBeStr<V: ConstStr> {
+    __Phantom(void::MustBeStr<V>),
     MustBeStr,
 }
 
