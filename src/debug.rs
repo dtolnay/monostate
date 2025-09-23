@@ -1,9 +1,5 @@
 use crate::string::ConstStr;
 use core::fmt::{self, Debug};
-use core::mem;
-use core::ptr;
-use core::slice;
-use core::str;
 
 impl<const V: char> Debug for crate::MustBeChar<V> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -91,11 +87,6 @@ impl<const V: bool> Debug for crate::MustBeBool<V> {
 
 impl<V: ConstStr> Debug for crate::MustBeStr<V> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        write!(formatter, "MustBe!({:?})", unsafe {
-            str::from_utf8_unchecked(slice::from_raw_parts(
-                ptr::from_ref(&V::BYTES) as *const u8,
-                mem::size_of::<V::Type>(),
-            ))
-        })
+        write!(formatter, "MustBe!({:?})", V::VALUE)
     }
 }

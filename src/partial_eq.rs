@@ -1,5 +1,4 @@
 use crate::string::ConstStr;
-use core::any::TypeId;
 
 impl<const V: char, const W: char> PartialEq<crate::MustBeChar<W>> for crate::MustBeChar<V> {
     fn eq(&self, _: &crate::MustBeChar<W>) -> bool {
@@ -91,6 +90,6 @@ where
     W: ConstStr,
 {
     fn eq(&self, _: &crate::MustBeStr<W>) -> bool {
-        TypeId::of::<V::Type>() == TypeId::of::<W::Type>()
+        V::VALUE == W::VALUE
     }
 }

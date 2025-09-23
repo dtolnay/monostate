@@ -22,8 +22,6 @@ pub trait ConstStr: Sealed {}
 impl<T> ConstStr for T where T: Sealed {}
 
 pub trait Sealed {
-    type Type: 'static;
-    const BYTES: Self::Type;
     const VALUE: &'static str;
 }
 
@@ -31,8 +29,6 @@ impl<T, const N: usize> Sealed for (len<N>, T)
 where
     T: RetrieveString,
 {
-    type Type = T::Type;
-    const BYTES: Self::Type = T::BYTES;
     const VALUE: &str = unsafe {
         str::from_utf8_unchecked(slice::from_raw_parts(
             const {

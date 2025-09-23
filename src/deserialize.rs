@@ -1,9 +1,6 @@
 use crate::format;
 use crate::string::ConstStr;
 use core::fmt::{self, Write as _};
-use core::mem;
-use core::ptr;
-use core::slice;
 use core::str;
 use serde::de::{Deserialize, Deserializer, Error, Unexpected, Visitor};
 
@@ -626,12 +623,7 @@ impl<'de, V: ConstStr> Deserialize<'de> for crate::MustBeStr<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeStrVisitor(unsafe {
-                str::from_utf8_unchecked(slice::from_raw_parts(
-                    ptr::from_ref(&V::BYTES) as *const u8,
-                    mem::size_of::<V::Type>(),
-                ))
-            }))
+            .deserialize_any(MustBeStrVisitor(V::VALUE))
             .map(|()| crate::MustBeStr)
     }
 }
