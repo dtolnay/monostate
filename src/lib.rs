@@ -130,11 +130,6 @@ pub struct MustBeI128<const i128: i128>;
 #[derive(Copy, Clone)]
 pub struct MustBeBool<const bool: bool>;
 
-mod value {
-    #[doc(hidden)]
-    pub use crate::string::MustBeStr::MustBeStr;
-}
-
 #[allow(type_alias_bounds)]
 pub type MustBeStr<str: ConstStr> = crate::string::MustBeStr<str>;
 
@@ -147,4 +142,4 @@ impl<str: ConstStr> Clone for MustBeStr<str> {
 }
 
 #[doc(hidden)]
-pub use self::value::*;
+pub use self::string::value::*;

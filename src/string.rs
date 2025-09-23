@@ -11,6 +11,11 @@ pub enum MustBeStr<str: ConstStr> {
     MustBeStr,
 }
 
+pub mod value {
+    #[doc(hidden)]
+    pub use crate::string::MustBeStr::MustBeStr;
+}
+
 pub trait ConstStr: Sealed {}
 
 #[doc(hidden)]
