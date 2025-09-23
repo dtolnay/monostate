@@ -22,14 +22,18 @@ pub trait ConstStr: Sealed {}
 impl<T> ConstStr for T where T: Sealed {}
 
 pub trait Sealed {
-    const VALUE: &'static str;
+    #[allow(private_interfaces)]
+    const __private: StringValue;
 }
+
+pub(crate) struct StringValue(pub(crate) &'static str);
 
 impl<T, const N: usize> Sealed for (len<N>, T)
 where
     T: StringBuffer,
 {
-    const VALUE: &str = unsafe {
+    #[allow(private_interfaces)]
+    const __private: StringValue = StringValue(unsafe {
         str::from_utf8_unchecked(slice::from_raw_parts(
             const {
                 &Cast::<T, N> {
@@ -40,7 +44,7 @@ where
             .as_ptr(),
             N,
         ))
-    };
+    });
 }
 
 union Cast<T: StringBuffer, const N: usize> {

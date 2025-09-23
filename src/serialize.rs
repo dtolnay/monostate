@@ -114,6 +114,6 @@ impl<V: ConstStr> Serialize for crate::MustBeStr<V> {
     where
         S: Serializer,
     {
-        serializer.serialize_str(V::VALUE)
+        serializer.serialize_str(Self::VALUE)
     }
 }

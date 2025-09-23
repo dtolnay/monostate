@@ -129,12 +129,12 @@ impl<const V: bool> MustBe for crate::MustBeBool<V> {
 }
 
 impl<V: ConstStr> crate::MustBeStr<V> {
-    pub const VALUE: &'static str = const { <V as crate::string::Sealed>::VALUE };
+    pub const VALUE: &'static str = const { <V as crate::string::Sealed>::__private.0 };
 }
 
 impl<V: ConstStr> MustBe for crate::MustBeStr<V> {
     type Type = &'static str;
-    const VALUE: Self::Type = const { <V as crate::string::Sealed>::VALUE };
+    const VALUE: Self::Type = const { <V as crate::string::Sealed>::__private.0 };
 }
 
 pub trait Sealed {}

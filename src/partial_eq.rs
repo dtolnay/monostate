@@ -90,6 +90,6 @@ where
     W: ConstStr,
 {
     fn eq(&self, _: &crate::MustBeStr<W>) -> bool {
-        V::VALUE == W::VALUE
+        Self::VALUE == crate::MustBeStr::<W>::VALUE
     }
 }

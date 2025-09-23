@@ -87,6 +87,6 @@ impl<const V: bool> Debug for crate::MustBeBool<V> {
 
 impl<V: ConstStr> Debug for crate::MustBeStr<V> {
     fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        write!(formatter, "MustBe!({:?})", V::VALUE)
+        write!(formatter, "MustBe!({:?})", Self::VALUE)
     }
 }

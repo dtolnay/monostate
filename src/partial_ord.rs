@@ -91,6 +91,6 @@ where
     W: ConstStr,
 {
     fn partial_cmp(&self, _: &crate::MustBeStr<W>) -> Option<Ordering> {
-        Some(V::VALUE.cmp(W::VALUE))
+        Some(Self::VALUE.cmp(crate::MustBeStr::<W>::VALUE))
     }
 }

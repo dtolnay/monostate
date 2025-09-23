@@ -623,7 +623,7 @@ impl<'de, V: ConstStr> Deserialize<'de> for crate::MustBeStr<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeStrVisitor(V::VALUE))
+            .deserialize_any(MustBeStrVisitor(Self::VALUE))
             .map(|()| crate::MustBeStr)
     }
 }
