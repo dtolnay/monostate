@@ -1,6 +1,6 @@
 [package]
 name = "monostate"
-version = "0.1.18"
+version = "1.0.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 categories = ["encoding", "rust-patterns", "no-std", "no-std::no-alloc"]
 description = "Type that deserializes only from one specific value"
@@ -12,7 +12,7 @@ repository = "https://github.com/dtolnay/monostate"
 rust-version = "1.79"
 
 [dependencies]
-monostate-impl = { version = "=0.1.18", path = "impl" }
+monostate-impl = { version = "=1.0.0", path = "impl" }
 serde_core = { version = "1.0.220", default-features = false }
 
 [target.'cfg(any())'.dependencies]
