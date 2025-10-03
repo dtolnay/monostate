@@ -182,6 +182,7 @@ where
 mod void {
     use core::marker::PhantomData;
 
+    #[doc(hidden)]
     pub enum Void {}
 
     impl Copy for Void {}
