@@ -74,6 +74,7 @@ pub mod alphabet;
 mod debug;
 mod default;
 mod deserialize;
+mod display;
 mod eq;
 mod format;
 mod hash;
