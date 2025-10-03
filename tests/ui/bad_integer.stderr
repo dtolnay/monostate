@@ -1,0 +1,5 @@
+error: unsupported integers suffix `u15`
+ --> tests/ui/bad_integer.rs:4:21
+  |
+4 |     let _ = MustBe!(1u15);
+  |                     ^^^^

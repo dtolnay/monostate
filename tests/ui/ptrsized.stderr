@@ -1,0 +1,11 @@
+error: serde data model only uses consistently sized integer types, not usize
+ --> tests/ui/ptrsized.rs:4:21
+  |
+4 |     let _ = MustBe!(1usize);
+  |                     ^^^^^^
+
+error: serde data model only uses consistently sized integer types, not isize
+ --> tests/ui/ptrsized.rs:5:21
+  |
+5 |     let _ = MustBe!(1isize);
+  |                     ^^^^^^

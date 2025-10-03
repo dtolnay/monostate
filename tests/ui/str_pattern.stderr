@@ -1,0 +1,15 @@
+error[E0005]: refutable pattern in local binding
+ --> tests/ui/str_pattern.rs:4:9
+  |
+4 |     let MustBe!("string") = MustBe!("string");
+  |         ^^^^^^^^^^^^^^^^^ pattern `monostate::string::MustBeStr::__Phantom(_)` not covered
+  |
+  = note: `let` bindings require an "irrefutable pattern", like a `struct` or an `enum` with only one variant
+  = note: for more information, visit https://doc.rust-lang.org/book/ch19-02-refutability.html
+  = note: pattern `monostate::string::MustBeStr::__Phantom(_)` is currently uninhabited, but this variant contains private fields which may become inhabited in the future
+  = note: the matched value is of type `monostate::string::MustBeStr<(len<6>, (monostate::alphabet::char<'s'>, monostate::alphabet::char<'t'>, monostate::alphabet::char<'r'>, monostate::alphabet::char<'i'>, monostate::alphabet::char<'n'>, monostate::alphabet::char<'g'>))>`
+  = note: this error originates in the macro `MustBe` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: you might want to use `if let` to ignore the variant that isn't matched
+  |
+4 |     if let MustBe!("string") = MustBe!("string") { todo!() };
+  |     ++                                           +++++++++++

@@ -1,0 +1,17 @@
+error: unsupported monostate literal kind
+ --> tests/ui/float.rs:4:21
+  |
+4 |     let _ = MustBe!(1.0);
+  |                     ^^^
+
+error: unsupported monostate literal kind
+ --> tests/ui/float.rs:5:21
+  |
+5 |     let _ = MustBe!(b"...");
+  |                     ^^^^^^
+
+error: unsupported monostate literal kind
+ --> tests/ui/float.rs:6:21
+  |
+6 |     let _ = MustBe!(c"...");
+  |                     ^^^^^^
