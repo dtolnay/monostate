@@ -188,3 +188,10 @@ fn test_pattern() {
     let MustBe!(1i128) = MustBe!(1i128);
     let MustBe!(true) = MustBe!(true);
 }
+
+#[rustversion::since(1.82)]
+#[test]
+fn test_string_pattern() {
+    // Since https://github.com/rust-lang/rust/pull/122792
+    let MustBe!("string") = MustBe!("string");
+}
