@@ -71,6 +71,7 @@ extern crate serde_core as serde;
 
 #[doc(hidden)]
 pub mod alphabet;
+mod binary;
 mod debug;
 mod default;
 mod deserialize;
@@ -78,11 +79,16 @@ mod display;
 mod eq;
 mod format;
 mod hash;
+mod lower_exp;
+mod lower_hex;
+mod octal;
 mod ord;
 mod partial_eq;
 mod partial_ord;
 mod serialize;
 mod string;
+mod upper_exp;
+mod upper_hex;
 mod value;
 
 pub use crate::string::ConstStr;
