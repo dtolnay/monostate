@@ -92,6 +92,31 @@ fn test_debug() {
 }
 
 #[test]
+fn test_display() {
+    macro_rules! assert_display_eq {
+    ($($value:tt)*) => {
+        assert_eq!(format!("{}", $($value)*), format!("{}", MustBe!($($value)*)));
+    };
+}
+
+    assert_display_eq!('x');
+    assert_display_eq!(1);
+    assert_display_eq!(-1);
+    assert_display_eq!(1u8);
+    assert_display_eq!(1u16);
+    assert_display_eq!(1u32);
+    assert_display_eq!(1u64);
+    assert_display_eq!(1u128);
+    assert_display_eq!(1i8);
+    assert_display_eq!(1i16);
+    assert_display_eq!(1i32);
+    assert_display_eq!(1i64);
+    assert_display_eq!(1i128);
+    assert_display_eq!(true);
+    assert_display_eq!("string");
+}
+
+#[test]
 fn test_cmp() {
     assert_eq!(MustBe!(4), MustBe!(4));
     assert_ne!(MustBe!(4), MustBe!(5));
