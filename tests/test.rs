@@ -94,8 +94,8 @@ fn test_debug() {
 #[test]
 fn test_display() {
     macro_rules! assert_display_eq {
-        ($($value:tt)*) => {
-            assert_eq!(format!("{}", $($value)*), format!("{}", MustBe!($($value)*)));
+        ($lit:literal) => {
+            assert_eq!(format!("{}", $lit), format!("{}", MustBe!($lit)));
         };
     }
 
