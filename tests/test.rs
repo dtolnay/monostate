@@ -187,4 +187,5 @@ fn test_pattern() {
     let MustBe!(1i64) = MustBe!(1i64);
     let MustBe!(1i128) = MustBe!(1i128);
     let MustBe!(true) = MustBe!(true);
+    let MustBe!("string") = MustBe!("string");
 }

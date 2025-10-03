@@ -7,7 +7,8 @@ use core::str;
 // the type encoding described in impl/src/lib.rs to avoid depending on
 // #![feature(adt_const_params)] for now.
 pub enum MustBeStr<V: ConstStr> {
-    __Phantom(void::MustBeStr<V>),
+    #[doc(hidden)]
+    __Phantom(#[doc(hidden)] void::MustBeStr<V>),
     MustBeStr,
 }
 
@@ -181,7 +182,7 @@ where
 mod void {
     use core::marker::PhantomData;
 
-    enum Void {}
+    pub enum Void {}
 
     impl Copy for Void {}
 
@@ -191,7 +192,7 @@ mod void {
         }
     }
 
-    pub struct MustBeStr<T>(PhantomData<T>, Void);
+    pub struct MustBeStr<T>(PhantomData<T>, #[doc(hidden)] pub Void);
 
     impl<T> Copy for MustBeStr<T> {}
 
