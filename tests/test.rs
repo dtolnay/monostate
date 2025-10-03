@@ -170,3 +170,21 @@ fn test_autotraits() {
     assert_send(MustBe!(true));
     assert_sync(MustBe!(true));
 }
+
+#[test]
+fn test_pattern() {
+    let MustBe!('x') = MustBe!('x');
+    let MustBe!(1) = MustBe!(1);
+    let MustBe!(-1) = MustBe!(-1);
+    let MustBe!(1u8) = MustBe!(1u8);
+    let MustBe!(1u16) = MustBe!(1u16);
+    let MustBe!(1u32) = MustBe!(1u32);
+    let MustBe!(1u64) = MustBe!(1u64);
+    let MustBe!(1u128) = MustBe!(1u128);
+    let MustBe!(1i8) = MustBe!(1i8);
+    let MustBe!(1i16) = MustBe!(1i16);
+    let MustBe!(1i32) = MustBe!(1i32);
+    let MustBe!(1i64) = MustBe!(1i64);
+    let MustBe!(1i128) = MustBe!(1i128);
+    let MustBe!(true) = MustBe!(true);
+}
