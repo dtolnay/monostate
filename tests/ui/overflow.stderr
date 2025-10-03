@@ -1,0 +1,8 @@
+error: literal out of range for `u8`
+ --> tests/ui/overflow.rs:4:21
+  |
+4 |     let _ = MustBe!(1000u8);
+  |                     ^^^^^^
+  |
+  = note: the literal `1000u8` does not fit into the type `u8` whose range is `0..=255`
+  = note: `#[deny(overflowing_literals)]` on by default
