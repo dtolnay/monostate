@@ -1,5 +1,5 @@
 use crate::alphabet::{self, len};
-use core::mem::ManuallyDrop;
+use core::mem::{self, ManuallyDrop};
 use core::slice;
 use core::str;
 
@@ -41,18 +41,23 @@ where
     T: StringBuffer,
 {
     #[allow(private_interfaces)]
-    const __private: StringValue = StringValue(unsafe {
-        str::from_utf8_unchecked(slice::from_raw_parts(
-            const {
-                &Cast::<T, N> {
-                    encoded: ManuallyDrop::new(T::BYTES),
+    const __private: StringValue = {
+        const {
+            assert!(N == mem::size_of::<T::Type>());
+        }
+        StringValue(unsafe {
+            str::from_utf8_unchecked(slice::from_raw_parts(
+                const {
+                    &Cast::<T, N> {
+                        encoded: ManuallyDrop::new(T::BYTES),
+                    }
+                    .array
                 }
-                .array
-            }
-            .as_ptr(),
-            N,
-        ))
-    });
+                .as_ptr(),
+                N,
+            ))
+        })
+    };
 }
 
 union Cast<T: StringBuffer, const N: usize> {
