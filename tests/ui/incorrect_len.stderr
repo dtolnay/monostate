@@ -1,0 +1,43 @@
+error[E0080]: constructing invalid value at .<deref>[4]: encountered uninitialized memory, but expected an integer
+ --> src/string.rs
+  |
+  |               const {
+  |  ___________________^
+  | |                 &Cast::<T, N> {
+  | |                     encoded: ManuallyDrop::new(T::BYTES),
+... |
+  | |             }
+  | |_____________^ it is undefined behavior to use this value
+  |
+  = note: the rules on what exactly is undefined behavior aren't clear, so this check might be overzealous. Please open an issue on the rustc repository if you believe it should not be considered undefined behavior.
+  = note: the raw bytes of the constant (size: 8, align: 8) {
+              ╾────alloc29<imm>─────╼                         │ ╾──────╼
+          }
+
+note: erroneous constant encountered
+  --> src/string.rs
+   |
+   | /             const {
+   | |                 &Cast::<T, N> {
+   | |                     encoded: ManuallyDrop::new(T::BYTES),
+...  |
+   | |             }
+   | |_____________^
+
+note: erroneous constant encountered
+  --> src/string.rs
+   |
+   |     const VALUE: &'static str = T::__private.0;
+   |                                 ^^^^^^^^^^^^
+
+note: erroneous constant encountered
+   --> src/value.rs
+    |
+    |     pub const VALUE: &'static str = V::VALUE;
+    |                                     ^^^^^^^^
+
+note: erroneous constant encountered
+  --> tests/ui/incorrect_len.rs:16:19
+   |
+16 |     let _ = N::<{ monostate::MustBeStr::<__Private>::VALUE.len() }>;
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
