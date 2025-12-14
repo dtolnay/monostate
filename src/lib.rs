@@ -52,18 +52,12 @@
 #![doc(html_root_url = "https://docs.rs/monostate/1.0.2")]
 #![allow(non_camel_case_types, non_upper_case_globals)]
 #![allow(
-    clippy::borrow_as_ptr,
-    clippy::builtin_type_shadow,
     clippy::cast_lossless,
     clippy::cast_sign_loss,
     clippy::derivable_impls,
     clippy::elidable_lifetime_names,
     clippy::expl_impl_clone_on_copy,
     clippy::missing_safety_doc,
-    clippy::module_name_repetitions,
-    clippy::needless_lifetimes,
-    clippy::ptr_as_ptr,
-    clippy::uninhabited_references,
     clippy::uninlined_format_args
 )]
 
