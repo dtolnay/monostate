@@ -108,7 +108,7 @@ impl<'de, const V: u128> Deserialize<'de> for crate::MustBePosInt<V> {
         }
 
         deserializer
-            .deserialize_any(MustBePosIntVisitor(V))
+            .deserialize_u128(MustBePosIntVisitor(V))
             .map(|()| crate::MustBePosInt)
     }
 }
@@ -185,7 +185,7 @@ impl<'de, const V: i128> Deserialize<'de> for crate::MustBeNegInt<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeNegIntVisitor(V))
+            .deserialize_i128(MustBeNegIntVisitor(V))
             .map(|()| crate::MustBeNegInt)
     }
 }
