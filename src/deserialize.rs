@@ -108,7 +108,7 @@ impl<'de, const V: u128> Deserialize<'de> for crate::MustBePosInt<V> {
         }
 
         deserializer
-            .deserialize_any(MustBePosIntVisitor(V))
+            .deserialize_u128(MustBePosIntVisitor(V))
             .map(|()| crate::MustBePosInt)
     }
 }
@@ -185,7 +185,7 @@ impl<'de, const V: i128> Deserialize<'de> for crate::MustBeNegInt<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeNegIntVisitor(V))
+            .deserialize_i128(MustBeNegIntVisitor(V))
             .map(|()| crate::MustBeNegInt)
     }
 }
@@ -217,7 +217,7 @@ impl<'de, const V: u8> Deserialize<'de> for crate::MustBeU8<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeU8Visitor(V))
+            .deserialize_u8(MustBeU8Visitor(V))
             .map(|()| crate::MustBeU8)
     }
 }
@@ -249,7 +249,7 @@ impl<'de, const V: u16> Deserialize<'de> for crate::MustBeU16<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeU16Visitor(V))
+            .deserialize_u16(MustBeU16Visitor(V))
             .map(|()| crate::MustBeU16)
     }
 }
@@ -281,7 +281,7 @@ impl<'de, const V: u32> Deserialize<'de> for crate::MustBeU32<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeU32Visitor(V))
+            .deserialize_u32(MustBeU32Visitor(V))
             .map(|()| crate::MustBeU32)
     }
 }
@@ -334,7 +334,7 @@ impl<'de, const V: u64> Deserialize<'de> for crate::MustBeU64<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeU64Visitor(V))
+            .deserialize_u64(MustBeU64Visitor(V))
             .map(|()| crate::MustBeU64)
     }
 }
@@ -372,7 +372,7 @@ impl<'de, const V: u128> Deserialize<'de> for crate::MustBeU128<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeU128Visitor(V))
+            .deserialize_u128(MustBeU128Visitor(V))
             .map(|()| crate::MustBeU128)
     }
 }
@@ -404,7 +404,7 @@ impl<'de, const V: i8> Deserialize<'de> for crate::MustBeI8<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeI8Visitor(V))
+            .deserialize_i8(MustBeI8Visitor(V))
             .map(|()| crate::MustBeI8)
     }
 }
@@ -436,7 +436,7 @@ impl<'de, const V: i16> Deserialize<'de> for crate::MustBeI16<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeI16Visitor(V))
+            .deserialize_i16(MustBeI16Visitor(V))
             .map(|()| crate::MustBeI16)
     }
 }
@@ -468,7 +468,7 @@ impl<'de, const V: i32> Deserialize<'de> for crate::MustBeI32<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeI32Visitor(V))
+            .deserialize_i32(MustBeI32Visitor(V))
             .map(|()| crate::MustBeI32)
     }
 }
@@ -521,7 +521,7 @@ impl<'de, const V: i64> Deserialize<'de> for crate::MustBeI64<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeI64Visitor(V))
+            .deserialize_i64(MustBeI64Visitor(V))
             .map(|()| crate::MustBeI64)
     }
 }
@@ -559,7 +559,7 @@ impl<'de, const V: i128> Deserialize<'de> for crate::MustBeI128<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeI128Visitor(V))
+            .deserialize_i128(MustBeI128Visitor(V))
             .map(|()| crate::MustBeI128)
     }
 }
@@ -591,7 +591,7 @@ impl<'de, const V: bool> Deserialize<'de> for crate::MustBeBool<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeBoolVisitor(V))
+            .deserialize_bool(MustBeBoolVisitor(V))
             .map(|()| crate::MustBeBool)
     }
 }
@@ -623,7 +623,7 @@ impl<'de, V: ConstStr> Deserialize<'de> for crate::MustBeStr<V> {
         }
 
         deserializer
-            .deserialize_any(MustBeStrVisitor(V::VALUE))
+            .deserialize_str(MustBeStrVisitor(V::VALUE))
             .map(|()| crate::MustBeStr)
     }
 }
