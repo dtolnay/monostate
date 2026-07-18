@@ -1,6 +1,6 @@
 [package]
 name = "monostate-impl"
-version = "1.0.2"
+version = "1.0.3"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 description = "Implementation detail of the monostate crate"
 edition = "2021"
